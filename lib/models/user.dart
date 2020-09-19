@@ -31,7 +31,6 @@ class User {
 
 @override
   String toString(){
-    return "User => (id: $id, nome: $nome, sobreNome: $sobreNome email: $email, senha: $senha, phone: $phone)";
+    return "User => (id: $id, nome: $name, sobreNome: $surname email: $email, senha: $senha, phone: $phone)";
   }
 }
-
