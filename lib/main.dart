@@ -3,6 +3,7 @@ import 'package:inserdeaf/pages/login.dart';
 
 void main() {
   runApp(MyApp());
+  imageCache.clear();
 }
 
 class MyApp extends StatelessWidget {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'InserDeaf',
       theme: ThemeData(
-        primarySwatch: Colors.pink,
+        primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
       home: Login(),
