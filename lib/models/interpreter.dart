@@ -7,10 +7,11 @@ class User {
   num phone;
   num cpf;
 
-  User(this.id, this.name, this.surname, this.email, this.senha, this.phone, this.cpf);
+  User(this.id, this.name, this.surname, this.email, this.senha, this.phone,
+      this.cpf);
 
   Map<String, dynamic> toMap() {
-    var map = <String, dynamic> {
+    var map = <String, dynamic>{
       'id': id,
       'name': name,
       'surname': surname,
@@ -30,5 +31,10 @@ class User {
     senha = map['senha'];
     phone = map['phone'];
     cpf = map['cpf'];
+  }
+
+  @override
+  String toString() {
+    return "Interpreter => (id: $id, nome: $name, sobreNome: $surname email: $email, senha: $senha, phone: $phone, cpf: $cpf)";
   }
 }
