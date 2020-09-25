@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatelessFullWidget {
   final _formKey = GlobalKey<FormState>();
 
   @override
