@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:inserdeaf/pages/login/login.dart';
+import 'package:inserdeaf/data/dao/user_dao.dart';
+import 'package:inserdeaf/data/database-helper.dart';
 
 void main() {
-  runApp(MyApp());
-  imageCache.clear();
+  UserDao userDao = UserDao(db);
+  runApp(LoginApp(
+    userDao: userDao,
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class LoginApp extends StatelessWidget {
+  final UserDao userDao;
+  LoginApp({
+    this.userDao,
+  });
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'InserDeaf',
+      title: 'Login App',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      debugShowCheckedModeBanner: false,
-      home: Login(),
+      home: LoginScreen(userDao: userDao),
     );
   }
 }

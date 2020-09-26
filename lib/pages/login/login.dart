@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:inserdeaf/data/dao/user_dao.dart';
+import 'package:inserdeaf/models/user.dart';
 
-class Login extends StatelessFullWidget {
+class LoginScreen extends StatefulWidget {
+  final UserDao userDao;
+  LoginScreen({
+    Key key,
+    this.userDao,
+  }) : super(key: key);
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +31,7 @@ class Login extends StatelessFullWidget {
             ),
             JobLoginImageAsset(),
             TextFormField(
+              controller: _emailController,
               decoration: InputDecoration(hintText: "Email"),
               keyboardType: TextInputType.emailAddress,
               validator: (text) {
@@ -29,6 +43,7 @@ class Login extends StatelessFullWidget {
               height: 16.0,
             ),
             TextFormField(
+              controller: _senhaController,
               decoration: InputDecoration(
                 hintText: "Senha",
               ),
@@ -60,7 +75,9 @@ class Login extends StatelessFullWidget {
                 textColor: Colors.blueGrey[50],
                 color: Colors.blue[900],
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {}
+                  if (_formKey.currentState.validate()) {
+                    _auth();
+                  }
                 },
               ),
             )
@@ -68,6 +85,16 @@ class Login extends StatelessFullWidget {
         ),
       ),
     );
+  }
+
+  void _auth() {
+    String email = _emailController.text;
+    String senha = _senhaController.text;
+    User user = widget.userDao.find(email, senha);
+    if (user != null)
+      print("autenticado");
+    else
+      print("não autenticado");
   }
 }
 

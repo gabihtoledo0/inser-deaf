@@ -1,38 +1,42 @@
 class User {
-  String _name;
-  String _surname;
-  String _email;
-  String _senha;
-  int _phone;
-  String _flaglogged;
+  String id;
+  String name;
+  String surname;
+  String email;
+  String senha;
+  String phone;
 
-  User(this._name, this._surname, this._email, this._senha, this._phone,
-      this._flaglogged);
+  User(this.id, this.name, this.surname, this.email, this.senha, this.phone);
 
-  User.map(dynamic obj) {
-    this._name = obj['name'];
-    this._surname = obj['surname'];
-    this._email = obj['email'];
-    this._senha = obj['senha'];
-    this._phone = obj['phone'];
-    this._flaglogged = obj['senha'];
+  @override
+  String toString() {
+    return 'User{id: $id, name: $name, surname: $surname, email: $email, senha: $senha, phone: $phone}';
   }
 
-  String get name => _name;
-  String get surname => _surname;
-  String get email => _email;
-  String get senha => _senha;
-  int get phone => _phone;
-  String get flaglogged => _flaglogged;
+  User.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        surname = json['surname'],
+        email = json['email'],
+        senha = json['senha'],
+        phone = json['phone'];
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'surname': surname,
+        'email': email,
+        'senha': senha,
+        'phone': phone,
+      };
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
-    map['name'] = _name;
-    map['surname'] = _surname;
-    map['email'] = _email;
-    map['senha'] = _senha;
-    map['phone'] = _phone;
-    map['flaglogged'] = _flaglogged;
+    map['id'] = id;
+    map['name'] = name;
+    map['surname'] = surname;
+    map['email'] = email;
+    map['senha'] = senha;
+    map['phone'] = phone;
     return map;
   }
 }
