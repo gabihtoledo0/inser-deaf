@@ -88,9 +88,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _auth() {
-    String email = _emailController.text;
-    String senha = _senhaController.text;
-    User user = widget.userDao.find(email, senha);
+    final String email = _emailController.text;
+    final String senha = _senhaController.text;
+    var users = new User(null, null, null, email, senha, null);
+    Future<User> user = widget.userDao.findUser(users, email, senha);
     if (user != null)
       print("autenticado");
     else

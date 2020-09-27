@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:inserdeaf/pages/login/login.dart';
 import 'package:inserdeaf/data/dao/user_dao.dart';
-import 'package:inserdeaf/data/database-helper.dart';
 
 void main() {
-  UserDao userDao = UserDao(db);
   runApp(LoginApp(
-    userDao: userDao,
+    userDao: UserDao(),
   ));
 }
 
@@ -15,6 +13,7 @@ class LoginApp extends StatelessWidget {
   LoginApp({
     this.userDao,
   });
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

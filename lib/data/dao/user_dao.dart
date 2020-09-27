@@ -16,29 +16,59 @@ class UserDao {
   static const String _surname = 'surname';
   static const String _email = 'email';
   static const String _senha = 'senha';
-  static const String _phone = 'phonr';
+  static const String _phone = 'phone';
 
-  Future<int> saveUser(User user) async {
+  Future<int> save(User user) async {
     final Database db = await getDatabase();
-    print(user.name);
-    int res = await db.insert('Users', user.toMap());
-    List<Map> list = await db.rawQuery('SELECT * FROM Users');
-    print(list);
-    return res;
+    Map<String, dynamic> userMap = _toMap(user);
+    return db.insert(_tableUser, userMap);
   }
 
-  Future<User> find(String email, String senha) async {
+  Map<String, dynamic> _toMap(User user) {
+    final Map<String, dynamic> userMap = Map();
+    userMap[_name] = user.name;
+    userMap[_surname] = user.surname;
+    userMap[_email] = user.email;
+    userMap[_senha] = user.senha;
+    userMap[_phone] = user.phone;
+    return userMap;
+  }
+
+  // Future<int> saveUser(User user) async {
+  //   final Database db = await getDatabase();
+  //   print(user.name);
+  //   int res = await db.insert('Users', user.toMap());
+  //   List<Map> list = await db.rawQuery('SELECT * FROM Users');
+  //   print(list);
+  //   return res;
+  // }
+
+  insert() async {
+    final Database db = await getDatabase();
+    int id1 = await db.rawInsert(
+        'INSERT INTO Test(name, surname, email, senha, phone) VALUES("gabriela", "toledo", "gabi@gabi", "12345678", "92323-3232")');
+    print('inserted1: $id1');
+  }
+
+  find(String email, String senha) async {
     final Database db = await getDatabase();
     List<Map> findUser = await db.rawQuery(
-        "SELECT email password FROM Users WHERE $_email = email AND $_senha = senha");
+        "SELECT email, senha FROM Users WHERE $_email = email AND $_senha = senha LIMIT 1");
     //db.execute("SELECT user.email user.password FROM users WHERE user.email = email AND user.password = password") LIMIT 1;
     print("procurando usuário...");
+    print(findUser);
     // Validators.validEmail(email);
     // User gabi = User(email: "gabi@gabi", password: "123");
     // if (email == gabi.email && password == gabi.password)
     //   return gabi;
     // return null;
     return findUser;
+  }
+
+  auth(String email, String senha) {
+    User hasUser = find(email, senha);
+    if (hasUser != null) return hasUser;
+    return null;
   }
 
   Future<User> findUser(User user, String email, String senha) async {
