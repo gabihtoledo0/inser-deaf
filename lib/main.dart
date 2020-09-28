@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:inserdeaf/pages/login/login.dart';
 import 'package:inserdeaf/data/dao/user_dao.dart';
+import 'package:inserdeaf/data/database-helper.dart';
+import 'data/database-helper.dart';
 
 void main() {
+  DatabaseHelper db = DatabaseHelper();
+  UserDao userDao = UserDao(db);
   runApp(LoginApp(
-    userDao: UserDao(),
+    userDao: userDao,
   ));
+}
+
+class DatabaseHelper {
+  void init() {
+    getDatabase();
+    print("iniciand banco de dados");
+  }
 }
 
 class LoginApp extends StatelessWidget {

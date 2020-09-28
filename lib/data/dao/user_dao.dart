@@ -1,3 +1,4 @@
+import 'package:inserdeaf/main.dart';
 import 'package:inserdeaf/models/user.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:inserdeaf/data/database-helper.dart';
@@ -17,6 +18,11 @@ class UserDao {
   static const String _email = 'email';
   static const String _senha = 'senha';
   static const String _phone = 'phone';
+
+  final DatabaseHelper db;
+    UserDao(this.db) {
+      db.init();
+    }
 
   Future<int> save(User user) async {
     final Database db = await getDatabase();
