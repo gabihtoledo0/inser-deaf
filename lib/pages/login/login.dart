@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               obscureText: true,
               validator: (text) {
-                if (text.isEmpty || text.length < 8) return "Senha inválido!";
+                if (text.isEmpty || text.length < 3) return "Senha inválido!";
               },
             ),
             Align(
@@ -86,19 +86,16 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-  void _auth() {
+  void _auth() async {
     final String email = _emailController.text;
     final String senha = _senhaController.text;
-    var users = new User(null, null, null, email, senha, null);
-    Future<User> user = widget.userDao.findUser(users, email, senha);
+    User user = await widget.userDao.auth(email, senha);
     if (user != null)
       print("autenticado");
     else
       print("não autenticado");
   }
 }
-
 class JobLoginImageAsset extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

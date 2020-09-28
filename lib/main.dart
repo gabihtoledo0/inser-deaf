@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:inserdeaf/pages/login/login.dart';
 import 'package:inserdeaf/data/dao/user_dao.dart';
-import 'package:inserdeaf/data/database-helper.dart';
-import 'data/database-helper.dart';
+import 'models/user.dart';
 
 void main() {
-  DatabaseHelper db = DatabaseHelper();
-  UserDao userDao = UserDao(db);
+  WidgetsFlutterBinding.ensureInitialized();
+  // iniciando banco de dados
+  UserDao userDao = UserDao();
+  // inserindo um usuário
+  userDao.insert(User(1, "Lucas", "Duarte", "lucas@lucas", "123", "94356-7893"));
+  // inicializando o app
   runApp(LoginApp(
     userDao: userDao,
   ));
-}
-
-class DatabaseHelper {
-  void init() {
-    getDatabase();
-    print("iniciand banco de dados");
-  }
 }
 
 class LoginApp extends StatelessWidget {
@@ -24,7 +20,6 @@ class LoginApp extends StatelessWidget {
   LoginApp({
     this.userDao,
   });
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
