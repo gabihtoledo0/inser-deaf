@@ -1,6 +1,6 @@
-import 'package:inserdeaf/models/user.dart';
+import 'package:Inserdeaf/models/user.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:inserdeaf/data/database-helper.dart';
+import 'package:Inserdeaf/data/database-helper.dart';
 
 class UserDao {
   static const String tableSql =
@@ -12,6 +12,7 @@ class UserDao {
   static const String _email = 'email';
   static const String _senha = 'senha';
   static const String _phone = 'phone';
+
   Future<int> save(User user) async {
     final Database db = await getDatabase();
     Map<String, dynamic> userMap = user.toMap();
@@ -39,7 +40,6 @@ class UserDao {
         columns: [_email, _senha],
         where: "$_email = ? and $_senha = ?",
         whereArgs: [email, senha]);
-    //db.execute("SELECT user.email user.password FROM users WHERE user.email = email AND user.password = password") LIMIT 1;
     print("procurando usuário...");
     print(user);
     if (user.length >= 1)

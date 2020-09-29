@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:inserdeaf/data/dao/user_dao.dart';
-import 'package:inserdeaf/models/user.dart';
+import 'package:Inserdeaf/data/dao/user_dao.dart';
+import 'package:Inserdeaf/models/user.dart';
 
 class LoginScreen extends StatefulWidget {
   final UserDao userDao;

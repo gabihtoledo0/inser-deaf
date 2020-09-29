@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:inserdeaf/pages/login/login.dart';
-import 'package:inserdeaf/data/dao/user_dao.dart';
-import 'models/user.dart';
+import 'package:Inserdeaf/pages/login/login.dart';
+import 'package:Inserdeaf/data/dao/user_dao.dart';
+// import 'models/user.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // iniciando banco de dados
   UserDao userDao = UserDao();
   // inserindo um usuário
-  userDao.insert(User(1, "Lucas", "Duarte", "lucas@lucas", "123", "94356-7893"));
+  // userDao.insert(User(1, "Lucas", "Duarte", "lucas@lucas", "123", "94356-7893"));
   // inicializando o app
   runApp(LoginApp(
     userDao: userDao,
