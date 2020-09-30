@@ -1,40 +1,51 @@
-class User {
+class Interpreter {
   int id;
   String name;
   String surname;
   String email;
   String senha;
-  num phone;
-  num cpf;
+  String phone;
+  String city;
+  String desc;
 
-  User(this.id, this.name, this.surname, this.email, this.senha, this.phone,
-      this.cpf);
-
-  Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
-      'id': id,
-      'name': name,
-      'surname': surname,
-      'email': email,
-      'senha': senha,
-      'phone': phone,
-      'cpf': cpf,
-    };
-    return map;
-  }
-
-  User.fromMap(Map<String, dynamic> map) {
-    id = map['id'];
-    name = map['name'];
-    surname = map['surname'];
-    email = map['email'];
-    senha = map['senha'];
-    phone = map['phone'];
-    cpf = map['cpf'];
-  }
+  Interpreter(this.id, this.name, this.surname, this.email, this.senha, this.phone,
+      this.city, this.desc);
 
   @override
   String toString() {
-    return "Interpreter => (id: $id, nome: $name, sobreNome: $surname email: $email, senha: $senha, phone: $phone, cpf: $cpf)";
+    return 'Interpreter{id: $id, name: $name, surname: $surname, email: $email, senha: $senha, phone: $phone, city: $city, des: $desc}';
+  }
+
+  Interpreter.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        surname = json['surname'],
+        email = json['email'],
+        senha = json['senha'],
+        phone = json['phone'],
+        city = json['city'],
+        desc = json['desc'];
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'surname': surname,
+        'email': email,
+        'senha': senha,
+        'phone': phone,
+        'city': city,
+        'desc': desc
+      };
+
+  Map<String, dynamic> toMap() {
+    var map = new Map<String, dynamic>();
+    map['id'] = id;
+    map['name'] = name;
+    map['surname'] = surname;
+    map['email'] = email;
+    map['senha'] = senha;
+    map['phone'] = phone;
+    map['city'] = city;
+    map['desc'] = desc;
+    return map;
   }
 }

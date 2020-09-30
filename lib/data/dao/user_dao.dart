@@ -4,7 +4,7 @@ import 'package:Inserdeaf/data/database-helper.dart';
 
 class UserDao {
   static const String tableSql =
-      'CREATE TABLE $_tableUser($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_name TEXT, $_surname TEXT, $_email TEXT, $_senha TEXT, $_phone TEXT);';
+      'CREATE TABLE $_tableUser($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_name TEXT, $_surname TEXT, $_email TEXT, $_senha TEXT, $_phone TEXT, $_city TEXT);';
   static const String _tableUser = 'Users';
   static const String _id = 'id';
   static const String _name = 'name';
@@ -12,6 +12,7 @@ class UserDao {
   static const String _email = 'email';
   static const String _senha = 'senha';
   static const String _phone = 'phone';
+  static const String _city = 'city';
 
   Future<int> save(User user) async {
     final Database db = await getDatabase();
@@ -27,6 +28,7 @@ class UserDao {
   //   print(list);
   //   return res;
   // }
+
   Future<int> insert(User user) async {
     final Database db = await getDatabase();
     int id = await db.insert(_tableUser, user.toMap());
@@ -50,6 +52,7 @@ class UserDao {
         user[0]['email'],
         user[0]['senha'],
         user[0]['phone'],
+        user[0]['city'],
       );
     return null;
   }

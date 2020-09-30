@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
+import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:Inserdeaf/models/user.dart';
+import 'package:Inserdeaf/models/interpreter.dart';
+
+import '../../models/interpreter.dart';
 
 class LoginScreen extends StatefulWidget {
   final UserDao userDao;
+  final InterpreterDao interpreterDao;
   LoginScreen({
     Key key,
     this.userDao,
+    this.interpreterDao,
   }) : super(key: key);
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -49,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               obscureText: true,
               validator: (text) {
-                if (text.isEmpty || text.length < 3) return "Senha inválido!";
+                if (text.isEmpty || text.length < 8) return "Senha inválido!";
               },
             ),
             Align(
@@ -86,16 +92,19 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   void _auth() async {
     final String email = _emailController.text;
     final String senha = _senhaController.text;
     User user = await widget.userDao.auth(email, senha);
-    if (user != null)
+    Interpreter interpreter = await widget.interpreterDao.auth(email, senha);
+    if (user != null || interpreter != null)
       print("autenticado");
     else
       print("não autenticado");
   }
 }
+
 class JobLoginImageAsset extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
