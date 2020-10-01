@@ -32,7 +32,6 @@ class UserDao {
   Future<int> insert(User user) async {
     final Database db = await getDatabase();
     int id = await db.insert(_tableUser, user.toMap());
-    print('inserted1: $id');
     return id;
   }
 

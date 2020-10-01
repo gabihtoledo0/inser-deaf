@@ -77,14 +77,14 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 16.0,
             ),
             SizedBox(
-              height: 44.0,
+              height: 50.0,
               child: RaisedButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     side: BorderSide(color: Colors.blueGrey)),
                 child: Text(
                   "Entrar",
-                  style: TextStyle(fontSize: 18.0),
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
                 textColor: Colors.blueGrey[50],
                 color: Colors.blue[900],
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   }
                 },
               ),
-            )
+            ),
           ],
         ),
       ),
