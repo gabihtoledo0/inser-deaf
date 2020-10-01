@@ -38,10 +38,13 @@ class _LoginScreenState extends State<LoginScreen> {
             JobLoginImageAsset(),
             TextFormField(
               controller: _emailController,
-              decoration: InputDecoration(hintText: "Email"),
+              decoration: InputDecoration(
+                labelText: "Email",
+                border: OutlineInputBorder(),
+              ),
               keyboardType: TextInputType.emailAddress,
-              validator: (text) {
-                if (text.isEmpty || !text.contains("@"))
+              validator: (_emailController) {
+                if (_emailController.isEmpty || !_emailController.contains("@"))
                   return "Email inválido!";
               },
             ),
@@ -51,7 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
             TextFormField(
               controller: _senhaController,
               decoration: InputDecoration(
-                hintText: "Senha",
+                labelText: "Senha",
+                border: OutlineInputBorder(),
               ),
               obscureText: true,
               validator: (text) {
@@ -66,7 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     "Esqueci minha senha",
                     textAlign: TextAlign.right,
                   ),
-                  padding: EdgeInsets.zero,
+                  textColor: Colors.blue[900],
+                  padding: EdgeInsets.all(3.0),
                 )),
             SizedBox(
               height: 16.0,
@@ -74,6 +79,9 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: 44.0,
               child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    side: BorderSide(color: Colors.blueGrey)),
                 child: Text(
                   "Entrar",
                   style: TextStyle(fontSize: 18.0),
