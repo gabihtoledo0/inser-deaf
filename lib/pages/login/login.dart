@@ -1,3 +1,4 @@
+import 'package:Inserdeaf/pages/primaryScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
@@ -45,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
               keyboardType: TextInputType.emailAddress,
               validator: (_emailController) {
                 if (_emailController.isEmpty || !_emailController.contains("@"))
-                  return "Email inválido!";
+                  return "Email inválido";
               },
             ),
             SizedBox(
@@ -59,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               obscureText: true,
               validator: (text) {
-                if (text.isEmpty || text.length < 8) return "Senha inválido!";
+                if (text.isEmpty || text.length < 8) return "Senha inválida";
               },
             ),
             Align(
@@ -95,6 +96,24 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
               ),
             ),
+            SizedBox(
+              height: 16.0,
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: FlatButton.icon(
+                textColor: Colors.blueGrey[900],
+                onPressed: () {
+                  Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PrimaryScreen()),
+              );
+                },
+                icon: Icon(Icons.keyboard_backspace, size: 24),
+                label: Text("Voltar", style: TextStyle(fontSize: 16.0)
+                ),
+              ),
+            )
           ],
         ),
       ),

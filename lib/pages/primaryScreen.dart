@@ -1,4 +1,6 @@
+import 'package:Inserdeaf/pages/registerDeaf.dart';
 import 'package:flutter/material.dart';
+import 'login/login.dart';
 
 class PrimaryScreen extends StatefulWidget {
   @override
@@ -6,7 +8,6 @@ class PrimaryScreen extends StatefulWidget {
 }
 
 class _PrimaryScreenState extends State<PrimaryScreen> {
-  final _key = GlobalKey<FormState>();
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[900],
@@ -23,7 +24,12 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
             ),
             textColor: Colors.blueGrey[900],
             color: Colors.blue[200],
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            },
           ),
         ),
         SizedBox(
@@ -54,12 +60,17 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
               borderRadius: BorderRadius.circular(25.0),
             ),
             child: Text(
-              "Cadastrar Deficiente ",
+              "Cadastrar Surdo",
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             textColor: Colors.blueGrey[900],
             color: Colors.pink[200],
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterDeaf()),
+              );
+            },
           ),
         )
       ]),

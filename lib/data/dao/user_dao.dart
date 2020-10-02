@@ -4,7 +4,7 @@ import 'package:Inserdeaf/data/database-helper.dart';
 
 class UserDao {
   static const String tableSql =
-      'CREATE TABLE $_tableUser($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_name TEXT, $_surname TEXT, $_email TEXT, $_senha TEXT, $_phone TEXT, $_city TEXT);';
+      'CREATE TABLE $_tableUser($_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $_name varchar(20) not null, $_surname varchar(60) not null, $_email varchar(60) not null, $_senha varchar(50) not null, $_phone varchar(11) not null, $_city varchar(20) not null);';
   static const String _tableUser = 'Users';
   static const String _id = 'id';
   static const String _name = 'name';

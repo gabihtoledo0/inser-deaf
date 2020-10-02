@@ -2,7 +2,6 @@ import 'package:Inserdeaf/pages/primaryScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
-import 'package:Inserdeaf/pages/login/login.dart';
 // import 'models/user.dart';
 // import 'models/interpreter.dart';
 
@@ -25,11 +24,7 @@ class LoginApp extends StatelessWidget {
 
   final UserDao userDao;
   final InterpreterDao interpreterDao;
-  final routes = {
-    '/login': (BuildContext context) =>
-        new LoginScreen(userDao: userDao, interpreterDao: intepreterDao),
-    '/': (BuildContext context) => new PrimaryScreen(),
-  };
+
   LoginApp({
     this.userDao,
     this.interpreterDao,
@@ -38,11 +33,11 @@ class LoginApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Login App',
-      routes: routes,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      home: PrimaryScreen(),
     );
   }
 }
