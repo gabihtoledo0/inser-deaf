@@ -2,8 +2,6 @@ import 'package:Inserdeaf/pages/primaryScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
-// import 'models/user.dart';
-// import 'models/interpreter.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

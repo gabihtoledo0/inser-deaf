@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
                 textColor: Colors.blueGrey[50],
-                color: Colors.blue[900],
+                color: Colors.lightBlue[900],
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _auth();

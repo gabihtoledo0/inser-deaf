@@ -1,8 +1,21 @@
 import 'package:Inserdeaf/pages/registerDeaf.dart';
 import 'package:flutter/material.dart';
 import 'login/login.dart';
+import 'package:Inserdeaf/data/dao/user_dao.dart';
+import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
+
+UserDao userDao = UserDao();
+InterpreterDao intepreterDao = InterpreterDao();
 
 class PrimaryScreen extends StatefulWidget {
+
+  final UserDao userDao;
+  final InterpreterDao interpreterDao;
+
+  PrimaryScreen({
+    this.userDao,
+    this.interpreterDao,
+  });
   @override
   _PrimaryScreenState createState() => _PrimaryScreenState();
 }
@@ -10,7 +23,7 @@ class PrimaryScreen extends StatefulWidget {
 class _PrimaryScreenState extends State<PrimaryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[900],
+      backgroundColor: Colors.lightBlue[900],
       body: ListView(padding: EdgeInsets.all(28.0), children: <Widget>[
         SizedBox(
           height: 50.0,
@@ -27,7 +40,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
+                MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao, interpreterDao: intepreterDao)),
               );
             },
           ),
