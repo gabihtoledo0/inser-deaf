@@ -13,8 +13,6 @@ class UserDao {
   static const String _senha = 'senha';
   static const String _phone = 'phone';
   static const String _city = 'city';
-  static const String _insert =
-      'INSERT INTO $_tableUser($_name, $_surname, $_email, $_senha, $_phone, $_city) VALUES(?, ?, ?, ? , ?, ?)';
 
   Future<int> save(User user) async {
     final Database db = await getDatabase();
@@ -22,26 +20,54 @@ class UserDao {
     return db.insert(_tableUser, userMap);
   }
 
-  // Future<int> saveUser(User user) async {
-  //   final Database db = await getDatabase();
-  //   print(user.name);
-  //   int res = await db.insert('Users', user.toMap());
-  //   List<Map> list = await db.rawQuery('SELECT * FROM Users');
-  //   print(list);
-  //   return res;
-  // }
-
-  Future<int> insertDeaf(String name, String surname, String phone,
-      String email, String senha, String city) async {
-    final Database db = await getDatabase();
-    int id = await db.rawInsert(_insert);
-    return id;
-  }
-
+  //insere um usuario no banco
   Future<int> insert(User user) async {
     final Database db = await getDatabase();
-    int id = await db.insert(_tableUser, user.toMap());
-    return id;
+    var resultado = await db.insert(_tableUser, user.toMap());
+    return resultado;
+  }
+
+  //retorna todos os usuarios
+  Future<List<User>> getUsuarios() async {
+    final Database db = await getDatabase();
+    var resultado = await db.query(_tableUser);
+
+    List<User> list = resultado.isNotEmpty
+        ? resultado.map((c) => User.fromJson(c)).toList()
+        : [];
+    return list;
+  }
+
+  //retorna um usuario pelo id
+  Future<User> getUser(int id) async {
+    final Database db = await getDatabase();
+    List<Map> maps = await db.query(
+      _tableUser,
+      columns: [_id, _name, _surname, _email, _phone, _city],
+      where: "$_id = ?",
+      whereArgs: [id],
+    );
+
+    if (maps.length > 0) {
+      return User.fromJson(maps.first);
+    } else {
+      return null;
+    }
+  }
+
+  //atualizar o objeto do usuario no banco
+  Future<int> updateUser(User user) async {
+    final Database db = await getDatabase();
+    var resultado = db.update(_tableUser, user.toMap(),
+        where: "$_id = ? ", whereArgs: [user.id]);
+    return resultado;
+  }
+
+  //deleta um usuario
+  Future<int> deleteUser(int id) async {
+    final Database db = await getDatabase();
+    var resultado = db.delete(_tableUser, where: "$_id = ?", whereArgs: [id]);
+    return resultado;
   }
 
   Future<User> find(String email, String senha) async {
