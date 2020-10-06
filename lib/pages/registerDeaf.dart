@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/models/user.dart';
-import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
+
+import 'login/login.dart';
 
 UserDao userDao = UserDao();
-InterpreterDao intepreterDao = InterpreterDao();
 
 class RegisterDeaf extends StatefulWidget {
   final UserDao userDao;
+  final User user;
 
   RegisterDeaf({
     Key key,
     this.userDao,
+    this.user,
   }) : super(key: key);
   @override
   _RegisterDeafState createState() => _RegisterDeafState();
@@ -233,7 +235,7 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                   color: Color(0xFFF8BBD0),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      _register();
+                      register();
                     }
                   },
                 ),
@@ -241,17 +243,35 @@ class _RegisterDeafState extends State<RegisterDeaf> {
             ])));
   }
 
-  final String surname = _surnameController.text;
-  final String email = _emailController.text;
-  final String senha = _senhaController.text;
-  final String phone = _phoneController.text;
-  final String city = _cityController.text;
-
-  void initState() async {
+  void initState() {
     super.initState();
 
-    if (widget.userDao == null) {
+    if (widget.user == null) {
       _editaContato = User(0, '', '', '', '', '', '');
+    } else {
+      print("usuário já cadastrado");
+    }
+  }
+
+  void register({User user}) async {
+    final String name = _nameController.text;
+    final String surname = _surnameController.text;
+    final String email = _emailController.text;
+    final String senha = _senhaController.text;
+    final String phone = _phoneController.text;
+    final String city = _cityController.text;
+
+    var c = User(2, name, surname, email, senha, phone, city);
+    User user = c;
+
+    // final cadastroRecebido = await Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao)),
+    // );
+
+    if (user != null) {
+      await userDao.insert(c);
+      print("realizado cadastro");
     } else {
       print("usuário já cadastrado");
     }
