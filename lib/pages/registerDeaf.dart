@@ -261,19 +261,41 @@ class _RegisterDeafState extends State<RegisterDeaf> {
     final String phone = _phoneController.text;
     final String city = _cityController.text;
 
-    var c = User(2, name, surname, email, senha, phone, city);
-    User user = c;
-
-    // final cadastroRecebido = await Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao)),
-    // );
+    User c = User(0, name, surname, email, senha, phone, city);
+    var user = await widget.userDao.insert(c, email);
 
     if (user != null) {
-      await userDao.insert(c);
-      print("realizado cadastro");
-    } else {
+      showAlertDialog(context);
       print("usuário já cadastrado");
+    } else {
+      print("realizado cadastro");
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao)),
+      );
     }
   }
+}
+
+showAlertDialog(BuildContext context) {
+  // configura o button
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {},
+  );
+  // configura o  AlertDialog
+  AlertDialog alerta = AlertDialog(
+    title: Text("Email já cadastrado"),
+    content: Text("Tente logar com o email ou cadastre outro usuário."),
+    actions: [
+      okButton,
+    ],
+  );
+  // exibe o dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alerta;
+    },
+  );
 }

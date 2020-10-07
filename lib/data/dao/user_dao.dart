@@ -21,10 +21,14 @@ class UserDao {
   }
 
   //insere um usuario no banco
-  Future<int> insert(User user) async {
+  Future<int> insert(User user, String email) async {
     final Database db = await getDatabase();
     var resultado = await db.insert(_tableUser, user.toMap());
-    return resultado;
+    List<Map> userEmail = await db.query(_tableUser,
+        columns: [_email], where: "$_email = ?", whereArgs: [email]);
+    print("procurando usuário...");
+    if (userEmail.length >= 1) return resultado;
+    return null;
   }
 
   //retorna todos os usuarios
