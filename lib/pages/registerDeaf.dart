@@ -1,26 +1,36 @@
+import 'package:Inserdeaf/data/dao/state_dao.dart';
+import 'package:Inserdeaf/models/estado.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/models/user.dart';
-
 import 'login/login.dart';
 
+
 UserDao userDao = UserDao();
+EstadoDao stateDao = EstadoDao();
 
 class RegisterDeaf extends StatefulWidget {
   final UserDao userDao;
   final User user;
+  final EstadoDao stateDao;
 
   RegisterDeaf({
     Key key,
     this.userDao,
     this.user,
+    this.stateDao,
   }) : super(key: key);
+
   @override
   _RegisterDeafState createState() => _RegisterDeafState();
 }
 
 class _RegisterDeafState extends State<RegisterDeaf> {
   final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+  }
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -28,6 +38,7 @@ class _RegisterDeafState extends State<RegisterDeaf> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   bool editado = false;
+  int _currentItemSelected = 1;
   User _editaContato;
 
   @override
@@ -189,34 +200,60 @@ class _RegisterDeafState extends State<RegisterDeaf> {
               SizedBox(
                 height: 16.0,
               ),
-              DropdownButton<String>(
-                value: dropdownValue,
-                icon: Icon(Icons.arrow_downward),
-                iconSize: 24,
-                elevation: 16,
-                isExpanded: true,
-                style: TextStyle(fontSize: 18, color: Colors.deepPurple),
-                underline: Container(
-                  height: 2,
-                  color: Colors.blue[600],
-                ),
-                onChanged: (String newValue) {
-                  setState(() {
-                    dropdownValue = newValue;
-                  });
-                },
-                items: <String>[
-                  "Cidades",
-                  "Adamantina",
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value,
-                        style:
-                            TextStyle(fontSize: 18.0, color: Colors.blue[600])),
+              FutureBuilder(
+                future: stateDao.getData(),
+                builder: (context, snapshot) {
+                  /* Apenas para desenhar algo enquanto não existir informações pra montar o DropDown */
+                  print(snapshot.hasData);
+                  if (!snapshot.hasData) return Container();
+
+                  List<Estado> estados = stateDao.toList(snapshot.data);
+
+                  return DropdownButton<int>(
+                    value: _currentItemSelected,
+                    isExpanded: true,
+                    items: estados.map((item) {
+                      return DropdownMenuItem(
+                        value: item.id,
+                        child: Text(item.name),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _currentItemSelected = value;
+                      });
+                    },
                   );
-                }).toList(),
+                },
               ),
+              // DropdownButton<String>(
+              //   value: dropdownValue,
+              //   icon: Icon(Icons.arrow_downward),
+              //   iconSize: 24,
+              //   elevation: 16,
+              //   isExpanded: true,
+              //   style: TextStyle(fontSize: 18, color: Colors.deepPurple),
+              //   underline: Container(
+              //     height: 2,
+              //     color: Colors.blue[600],
+              //   ),
+              //   onChanged: (String newValue) {
+              //     setState(() {
+              //       dropdownValue = newValue;
+              //     });
+              //   },
+              //   items: <String>[
+              //     "Cidades",
+              //     "Adamantina",
+              //   ].map<DropdownMenuItem<String>>((String value) {
+              //     return DropdownMenuItem<String>(
+              //       value: value,
+              //       child: Text(value,
+              //           style:
+              //               TextStyle(fontSize: 18.0, color: Colors.blue[600])),
+              //     );
+              //   }).toList(),
+              // ),
               SizedBox(
                 height: 32.0,
               ),
@@ -241,16 +278,6 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                 ),
               ),
             ])));
-  }
-
-  void initState() {
-    super.initState();
-
-    if (widget.user == null) {
-      _editaContato = User(0, '', '', '', '', '', '');
-    } else {
-      print("usuário já cadastrado");
-    }
   }
 
   void register({User user}) async {
