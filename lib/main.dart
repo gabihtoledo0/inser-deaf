@@ -1,25 +1,21 @@
+import 'package:Inserdeaf/pages/primaryScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:Inserdeaf/pages/login/login.dart';
-import 'package:Inserdeaf/data/dao/user_dao.dart';
-// import 'models/user.dart';
+// import 'package:Inserdeaf/models/interpreter.dart';
+// import 'package:Inserdeaf/models/user.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // iniciando banco de dados
-  UserDao userDao = UserDao();
   // inserindo um usuário
-  // userDao.insert(User(1, "Lucas", "Duarte", "lucas@lucas", "123", "94356-7893"));
+  // userDao.insert(User(1, "Gabriela", "Toledo Prado", "gabi@gabi", "12345678",
+  //     "11943567893", "Caieiras"));
+  // intepreterDao.insert(Interpreter(1, "Felipe", "Oliveira", "felipe@felipe",
+      // "senha123", "11943567893", "São Paulo", "sou um estudante"));
   // inicializando o app
-  runApp(LoginApp(
-    userDao: userDao,
-  ));
+  runApp(LoginApp());
 }
 
 class LoginApp extends StatelessWidget {
-  final UserDao userDao;
-  LoginApp({
-    this.userDao,
-  });
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,7 +24,7 @@ class LoginApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(userDao: userDao),
+      home: PrimaryScreen(),
     );
   }
 }

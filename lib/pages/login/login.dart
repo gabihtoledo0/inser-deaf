@@ -1,13 +1,20 @@
+import 'package:Inserdeaf/pages/primaryScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
+import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:Inserdeaf/models/user.dart';
+import 'package:Inserdeaf/models/interpreter.dart';
+
+import '../../models/interpreter.dart';
 
 class LoginScreen extends StatefulWidget {
   final UserDao userDao;
+  final InterpreterDao interpreterDao;
   LoginScreen({
     Key key,
     this.userDao,
+    this.interpreterDao,
   }) : super(key: key);
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -32,11 +39,14 @@ class _LoginScreenState extends State<LoginScreen> {
             JobLoginImageAsset(),
             TextFormField(
               controller: _emailController,
-              decoration: InputDecoration(hintText: "Email"),
+              decoration: InputDecoration(
+                labelText: "Email",
+                border: OutlineInputBorder(),
+              ),
               keyboardType: TextInputType.emailAddress,
-              validator: (text) {
-                if (text.isEmpty || !text.contains("@"))
-                  return "Email inválido!";
+              validator: (_emailController) {
+                if (_emailController.isEmpty || !_emailController.contains("@"))
+                  return "Email inválido";
               },
             ),
             SizedBox(
@@ -45,11 +55,12 @@ class _LoginScreenState extends State<LoginScreen> {
             TextFormField(
               controller: _senhaController,
               decoration: InputDecoration(
-                hintText: "Senha",
+                labelText: "Senha",
+                border: OutlineInputBorder(),
               ),
               obscureText: true,
               validator: (text) {
-                if (text.isEmpty || text.length < 3) return "Senha inválido!";
+                if (text.isEmpty || text.length < 8) return "Senha inválida";
               },
             ),
             Align(
@@ -60,25 +71,47 @@ class _LoginScreenState extends State<LoginScreen> {
                     "Esqueci minha senha",
                     textAlign: TextAlign.right,
                   ),
-                  padding: EdgeInsets.zero,
+                  textColor: Colors.blue[900],
+                  padding: EdgeInsets.all(3.0),
                 )),
             SizedBox(
               height: 16.0,
             ),
             SizedBox(
-              height: 44.0,
+              height: 50.0,
               child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    side: BorderSide(color: Colors.blueGrey)),
                 child: Text(
                   "Entrar",
-                  style: TextStyle(fontSize: 18.0),
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
                 textColor: Colors.blueGrey[50],
-                color: Colors.blue[900],
+                color: Colors.lightBlue[900],
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _auth();
                   }
                 },
+              ),
+            ),
+            SizedBox(
+              height: 16.0,
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: FlatButton.icon(
+                textColor: Colors.blueGrey[900],
+                onPressed: () {
+                  Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PrimaryScreen()),
+              );
+                },
+                icon: Icon(Icons.keyboard_backspace, size: 24),
+                label: Text("Voltar", style: TextStyle(fontSize: 16.0)
+                ),
               ),
             )
           ],
@@ -86,16 +119,19 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   void _auth() async {
     final String email = _emailController.text;
     final String senha = _senhaController.text;
     User user = await widget.userDao.auth(email, senha);
-    if (user != null)
+    Interpreter interpreter = await widget.interpreterDao.auth(email, senha);
+    if (user != null || interpreter != null)
       print("autenticado");
     else
       print("não autenticado");
   }
 }
+
 class JobLoginImageAsset extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
