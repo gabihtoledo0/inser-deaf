@@ -3,22 +3,26 @@ import 'package:Inserdeaf/models/estado.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/models/user.dart';
+import 'package:Inserdeaf/data/dao/city_dao.dart';
 import 'login/login.dart';
 
 
 UserDao userDao = UserDao();
 EstadoDao stateDao = EstadoDao();
+CityDao cityDao = CityDao();
 
 class RegisterDeaf extends StatefulWidget {
   final UserDao userDao;
   final User user;
   final EstadoDao stateDao;
+  final CityDao cityDao;
 
   RegisterDeaf({
     Key key,
     this.userDao,
     this.user,
     this.stateDao,
+    this.cityDao
   }) : super(key: key);
 
   @override
@@ -226,6 +230,32 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                   );
                 },
               ),
+              // FutureBuilder(
+              //   future: cityDao.getData(),
+              //   builder: (context, snapshot) {
+              //     /* Apenas para desenhar algo enquanto não existir informações pra montar o DropDown */
+              //     print(snapshot.hasData);
+              //     if (!snapshot.hasData) return Container();
+
+              //     List<City> city = cityDao.toList(snapshot.data);
+
+              //     return DropdownButton<int>(
+              //       value: _currentItemSelected,
+              //       isExpanded: true,
+              //       items: city.map((item) {
+              //         return DropdownMenuItem(
+              //           value: item.id,
+              //           child: Text(item.name),
+              //         );
+              //       }).toList(),
+              //       onChanged: (value) {
+              //         setState(() {
+              //           _currentItemSelected = value;
+              //         });
+              //       },
+              //     );
+              //   },
+              // ),
               // DropdownButton<String>(
               //   value: dropdownValue,
               //   icon: Icon(Icons.arrow_downward),
