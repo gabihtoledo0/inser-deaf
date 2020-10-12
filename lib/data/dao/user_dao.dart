@@ -16,18 +16,29 @@ class UserDao {
 
   Future<int> save(User user) async {
     final Database db = await getDatabase();
-    Map<String, dynamic> userMap = user.toMap();
-    return db.insert(_tableUser, userMap);
+    return db.insert(_tableUser, user.toMap());
+  }
+
+  Future<int> insert(User user) async {
+    final Database db = await getDatabase();
+    var resultado = await db.insert(_tableUser, user.toMap());
+    int hasEmail = await findRegister(user);
+    if (hasEmail != null) {
+      return resultado;
+    }
+    return null;
   }
 
   //insere um usuario no banco
-  Future<int> insert(User user, String email) async {
+  Future<int> findRegister(User users) async {
     final Database db = await getDatabase();
-    var resultado = await db.insert(_tableUser, user.toMap());
-    List<Map> userEmail = await db.query(_tableUser,
-        columns: [_email], where: "$_email = ?", whereArgs: [email]);
-    print("procurando usuário...");
-    if (userEmail.length >= 1) return resultado;
+    List<Map> user = await db.query(_tableUser,
+        columns: [_email], where: "$_email = ?", whereArgs: [users.email]);
+    print("procurando email...");
+
+    if (user.length >= 1) {
+      print("usuario já cadastrado, tentei outro email");
+    }
     return null;
   }
 

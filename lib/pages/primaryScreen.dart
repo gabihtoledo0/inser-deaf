@@ -1,4 +1,4 @@
-import 'package:Inserdeaf/pages/registerDeaf.dart';
+import 'package:Inserdeaf/pages/register/registerDeaf.dart';
 import 'package:flutter/material.dart';
 import 'login/login.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';

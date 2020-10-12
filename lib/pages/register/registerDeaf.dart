@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/models/user.dart';
 import 'package:Inserdeaf/data/dao/city_dao.dart';
-import 'login/login.dart';
-
 
 UserDao userDao = UserDao();
 EstadoDao stateDao = EstadoDao();
@@ -17,13 +15,8 @@ class RegisterDeaf extends StatefulWidget {
   final EstadoDao stateDao;
   final CityDao cityDao;
 
-  RegisterDeaf({
-    Key key,
-    this.userDao,
-    this.user,
-    this.stateDao,
-    this.cityDao
-  }) : super(key: key);
+  RegisterDeaf({Key key, this.userDao, this.user, this.stateDao, this.cityDao})
+      : super(key: key);
 
   @override
   _RegisterDeafState createState() => _RegisterDeafState();
@@ -35,6 +28,7 @@ class _RegisterDeafState extends State<RegisterDeaf> {
   void initState() {
     super.initState();
   }
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -43,7 +37,6 @@ class _RegisterDeafState extends State<RegisterDeaf> {
   final TextEditingController _cityController = TextEditingController();
   bool editado = false;
   int _currentItemSelected = 1;
-  User _editaContato;
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +57,6 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.person),
                 ),
-                onChanged: (text) {
-                  setState(() {
-                    _editaContato.name = text;
-                  });
-                },
                 keyboardType: TextInputType.name,
                 validator: (_nameController) {
                   if (_nameController.isEmpty || _nameController.length > 20)
@@ -85,11 +73,6 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.supervisor_account),
                 ),
-                onChanged: (text) {
-                  setState(() {
-                    _editaContato.surname = text;
-                  });
-                },
                 keyboardType: TextInputType.name,
                 validator: (_surnameController) {
                   if (_surnameController.isEmpty ||
@@ -107,11 +90,6 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.local_phone),
                 ),
-                onChanged: (text) {
-                  setState(() {
-                    _editaContato.phone = text;
-                  });
-                },
                 keyboardType: TextInputType.phone,
                 validator: (_phoneController) {
                   if (_phoneController.isEmpty || _phoneController.length > 11)
@@ -128,11 +106,6 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.email),
                 ),
-                onChanged: (text) {
-                  setState(() {
-                    _editaContato.email = text;
-                  });
-                },
                 keyboardType: TextInputType.emailAddress,
                 validator: (_emailController) {
                   if (_emailController.isEmpty ||
@@ -150,11 +123,6 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.vpn_key),
                 ),
-                onChanged: (text) {
-                  setState(() {
-                    _editaContato.senha = text;
-                  });
-                },
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
                 validator: (_senhaController) {
@@ -190,11 +158,6 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.vpn_key),
                 ),
-                onChanged: (text) {
-                  setState(() {
-                    _editaContato.city = text;
-                  });
-                },
                 keyboardType: TextInputType.streetAddress,
                 validator: (_cityController) {
                   if (_cityController.isEmpty || _cityController.length > 40)
@@ -310,7 +273,7 @@ class _RegisterDeafState extends State<RegisterDeaf> {
             ])));
   }
 
-  void register({User user}) async {
+  void register() async {
     final String name = _nameController.text;
     final String surname = _surnameController.text;
     final String email = _emailController.text;
@@ -318,19 +281,24 @@ class _RegisterDeafState extends State<RegisterDeaf> {
     final String phone = _phoneController.text;
     final String city = _cityController.text;
 
-    User c = User(0, name, surname, email, senha, phone, city);
-    var user = await widget.userDao.insert(c, email);
+    var c = User(35, name, surname, email, senha, phone, city);
+    int user = await userDao.insert(c);
 
-    if (user != null) {
-      showAlertDialog(context);
-      print("usuário já cadastrado");
-    } else {
+    if (user != null)
       print("realizado cadastro");
-      await Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao)),
-      );
-    }
+    else
+      print("usuário já cadastrado");
+
+    // if (user != null) {
+    //   showAlertDialog(context);
+    //   print("usuário já cadastrado");
+    // } else {
+    //   print("realizado cadastro");
+    //   await Navigator.push(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao)),
+    //   );
+    // }
   }
 }
 
