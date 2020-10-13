@@ -281,7 +281,7 @@ class _RegisterDeafState extends State<RegisterDeaf> {
     final String phone = _phoneController.text;
     final String city = _cityController.text;
 
-    var c = User(35, name, surname, email, senha, phone, city);
+    var c = User(49, name, surname, email, senha, phone, city);
     int user = await userDao.insert(c);
 
     if (user != null)
