@@ -1,21 +1,32 @@
 import 'package:Inserdeaf/data/dao/state_dao.dart';
-import 'package:Inserdeaf/models/estado.dart';
+// import 'package:Inserdeaf/models/estado.dart';
+import 'package:Inserdeaf/pages/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/models/user.dart';
 import 'package:Inserdeaf/data/dao/city_dao.dart';
+import 'package:Inserdeaf/pages/register/validator.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 UserDao userDao = UserDao();
 EstadoDao stateDao = EstadoDao();
 CityDao cityDao = CityDao();
+Validator valida = Validator();
 
 class RegisterDeaf extends StatefulWidget {
   final UserDao userDao;
   final User user;
   final EstadoDao stateDao;
   final CityDao cityDao;
+  final Validator valida;
 
-  RegisterDeaf({Key key, this.userDao, this.user, this.stateDao, this.cityDao})
+  RegisterDeaf(
+      {Key key,
+      this.userDao,
+      this.user,
+      this.stateDao,
+      this.cityDao,
+      this.valida})
       : super(key: key);
 
   @override
@@ -36,11 +47,13 @@ class _RegisterDeafState extends State<RegisterDeaf> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   bool editado = false;
-  int _currentItemSelected = 1;
+  // int _currentItemSelected = 1;
+  final maskFormatter = new MaskTextInputFormatter(
+      mask: '(##)####-####', filter: { "#": RegExp(r'[0-9]') });
 
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = 'Cidades';
+    // String dropdownValue = 'Cidades';
     return Scaffold(
         backgroundColor: Colors.blueGrey[50],
         appBar: AppBar(
@@ -49,19 +62,19 @@ class _RegisterDeafState extends State<RegisterDeaf> {
         ),
         body: Form(
             key: _formKey,
-            child: ListView(padding: EdgeInsets.all(28.0), children: <Widget>[
+            child: ListView(padding: EdgeInsets.all(28.0),
+            children: <Widget>[
+              JobLoginImageAsset(),
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
                   labelText: "Nome",
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                  ),
                   prefixIcon: Icon(Icons.person),
                 ),
                 keyboardType: TextInputType.name,
-                validator: (_nameController) {
-                  if (_nameController.isEmpty || _nameController.length > 20)
-                    return "Nome inválido";
-                },
+                validator: valida.validarNome,
               ),
               SizedBox(
                 height: 16.0,
@@ -74,27 +87,21 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                   prefixIcon: Icon(Icons.supervisor_account),
                 ),
                 keyboardType: TextInputType.name,
-                validator: (_surnameController) {
-                  if (_surnameController.isEmpty ||
-                      _surnameController.length > 60)
-                    return "Sobrenome inválido";
-                },
+                validator: valida.validarNome,
               ),
               SizedBox(
                 height: 16.0,
               ),
               TextFormField(
                 controller: _phoneController,
+                inputFormatters: [maskFormatter],
                 decoration: InputDecoration(
                   labelText: "Celular",
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.local_phone),
                 ),
                 keyboardType: TextInputType.phone,
-                validator: (_phoneController) {
-                  if (_phoneController.isEmpty || _phoneController.length > 11)
-                    return "Telefone inválido";
-                },
+                validator: valida.validarCelular,
               ),
               SizedBox(
                 height: 16.0,
@@ -107,11 +114,7 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                   prefixIcon: Icon(Icons.email),
                 ),
                 keyboardType: TextInputType.emailAddress,
-                validator: (_emailController) {
-                  if (_emailController.isEmpty ||
-                      !_emailController.contains("@") ||
-                      _emailController.length > 60) return "Email inválido";
-                },
+                validator: valida.validarEmail,
               ),
               SizedBox(
                 height: 16.0,
@@ -125,11 +128,7 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                 ),
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
-                validator: (_senhaController) {
-                  if (_senhaController.isEmpty ||
-                      _senhaController.length < 8 ||
-                      _senhaController.length > 50) return "Senha inválida";
-                },
+                validator: valida.validarSenha,
               ),
               SizedBox(
                 height: 16.0,
@@ -159,40 +158,34 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                   prefixIcon: Icon(Icons.vpn_key),
                 ),
                 keyboardType: TextInputType.streetAddress,
-                validator: (_cityController) {
-                  if (_cityController.isEmpty || _cityController.length > 40)
-                    return "Cidade inválida";
-                },
+                validator: valida.validarNome,
               ),
-              SizedBox(
-                height: 16.0,
-              ),
-              FutureBuilder(
-                future: stateDao.getData(),
-                builder: (context, snapshot) {
-                  /* Apenas para desenhar algo enquanto não existir informações pra montar o DropDown */
-                  print(snapshot.hasData);
-                  if (!snapshot.hasData) return Container();
+              // FutureBuilder(
+              //   future: stateDao.getData(),
+              //   builder: (context, snapshot) {
+              //     /* Apenas para desenhar algo enquanto não existir informações pra montar o DropDown */
+              //     print(snapshot.hasData);
+              //     if (!snapshot.hasData) return Container();
 
-                  List<Estado> estados = stateDao.toList(snapshot.data);
+              //     List<Estado> estados = stateDao.toList(snapshot.data);
 
-                  return DropdownButton<int>(
-                    value: _currentItemSelected,
-                    isExpanded: true,
-                    items: estados.map((item) {
-                      return DropdownMenuItem(
-                        value: item.id,
-                        child: Text(item.name),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _currentItemSelected = value;
-                      });
-                    },
-                  );
-                },
-              ),
+              //     return DropdownButton<int>(
+              //       value: _currentItemSelected,
+              //       isExpanded: true,
+              //       items: estados.map((item) {
+              //         return DropdownMenuItem(
+              //           value: item.id,
+              //           child: Text(item.name),
+              //         );
+              //       }).toList(),
+              //       onChanged: (value) {
+              //         setState(() {
+              //           _currentItemSelected = value;
+              //         });
+              //       },
+              //     );
+              //   },
+              // ),
               // FutureBuilder(
               //   future: cityDao.getData(),
               //   builder: (context, snapshot) {
@@ -284,21 +277,13 @@ class _RegisterDeafState extends State<RegisterDeaf> {
     var c = User(49, name, surname, email, senha, phone, city);
     int user = await userDao.insert(c);
 
-    if (user != null)
+    if (user != null) {
       print("realizado cadastro");
-    else
+      showSucessDialog(context);
+    } else {
+      showAlertDialog(context);
       print("usuário já cadastrado");
-
-    // if (user != null) {
-    //   showAlertDialog(context);
-    //   print("usuário já cadastrado");
-    // } else {
-    //   print("realizado cadastro");
-    //   await Navigator.push(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao)),
-    //   );
-    // }
+    }
   }
 }
 
@@ -306,12 +291,15 @@ showAlertDialog(BuildContext context) {
   // configura o button
   Widget okButton = FlatButton(
     child: Text("OK"),
-    onPressed: () {},
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
   );
   // configura o  AlertDialog
   AlertDialog alerta = AlertDialog(
     title: Text("Email já cadastrado"),
-    content: Text("Tente logar com o email ou cadastre outro usuário."),
+    content: Text(
+        "Tente cadastrar outro email ou vá até a tela de login e entre com esse email."),
     actions: [
       okButton,
     ],
@@ -323,4 +311,42 @@ showAlertDialog(BuildContext context) {
       return alerta;
     },
   );
+}
+
+showSucessDialog(BuildContext context) {
+  // configura o button
+  Widget loginButton = FlatButton(
+    child: Text("LOGIN"),
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao)),
+      );
+    },
+  );
+  // configura o  AlertDialog
+  AlertDialog alerta = AlertDialog(
+    title: Text("Usuário cadastrado com sucesso"),
+    actions: [
+      loginButton,
+    ],
+  );
+  // exibe o dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alerta;
+    },
+  );
+}
+
+class JobLoginImageAsset extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    AssetImage assetImage = AssetImage('images/register.png');
+    Image image = Image(image: assetImage, height: 250);
+    return Container(
+      child: image,
+    );
+  }
 }
