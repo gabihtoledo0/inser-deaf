@@ -3,18 +3,21 @@ import 'package:Inserdeaf/data/dao/state_dao.dart';
 import 'package:Inserdeaf/pages/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
+import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:Inserdeaf/models/user.dart';
 import 'package:Inserdeaf/data/dao/city_dao.dart';
 import 'package:Inserdeaf/pages/register/validator.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 UserDao userDao = UserDao();
+InterpreterDao interDao = InterpreterDao();
 EstadoDao stateDao = EstadoDao();
 CityDao cityDao = CityDao();
 Validator valida = Validator();
 
 class RegisterDeaf extends StatefulWidget {
   final UserDao userDao;
+  final InterpreterDao interDao;
   final User user;
   final EstadoDao stateDao;
   final CityDao cityDao;
@@ -23,6 +26,7 @@ class RegisterDeaf extends StatefulWidget {
   RegisterDeaf(
       {Key key,
       this.userDao,
+      this.interDao,
       this.user,
       this.stateDao,
       this.cityDao,
@@ -304,7 +308,7 @@ showSucessDialog(BuildContext context) {
     onPressed: () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao)),
+        MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao, interpreterDao: interDao),
       );
     },
   );

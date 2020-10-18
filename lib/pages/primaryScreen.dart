@@ -26,7 +26,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
       backgroundColor: Colors.lightBlue[900],
       body: ListView(padding: EdgeInsets.all(28.0), children: <Widget>[
         SizedBox(
-          height: 64.0,
+          height: 82.0,
         ),
         JobLoginImageAsset(),
         SizedBox(
@@ -52,7 +52,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             textColor: Colors.blueGrey[900],
-            color: Colors.blue[200],
+            color: Colors.white,
             onPressed: () {
               Navigator.push(
                 context,
@@ -64,7 +64,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
           ),
         ),
         SizedBox(
-          height: 16.0,
+          height: 32.0,
         ),
         SizedBox(
           height: 50.0,
@@ -77,7 +77,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             textColor: Colors.blueGrey[900],
-            color: Colors.green[200],
+            color: Colors.blue[300],
             onPressed: () {
               Navigator.push(
                 context,
@@ -87,7 +87,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
           ),
         ),
         SizedBox(
-          height: 16.0,
+          height: 32.0,
         ),
         SizedBox(
           height: 50.0,
@@ -100,7 +100,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             textColor: Colors.blueGrey[900],
-            color: Colors.pink[200],
+            color: Color(0xFFF8BBD0),
             onPressed: () {
               Navigator.push(
                 context,

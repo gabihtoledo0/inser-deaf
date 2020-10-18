@@ -65,6 +65,9 @@ class _RegisterInterState extends State<RegisterInter> {
             key: _formKey,
             child: ListView(padding: EdgeInsets.all(28.0), children: <Widget>[
               JobLoginImageAsset(),
+              SizedBox(
+                height: 24.0,
+              ),
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
@@ -278,9 +281,14 @@ class JobLoginImageAsset extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AssetImage assetImage = AssetImage('images/interprete.png');
-    Image image = Image(image: assetImage, height: 250);
-    return Container(
-      child: image,
+    return Center(
+      child: Container(
+        width: 300,
+        height: 190,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(fit: BoxFit.fill, image: assetImage)),
+      ),
     );
   }
 }

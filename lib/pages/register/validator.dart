@@ -29,7 +29,7 @@ class Validator{
     }
   }
   String validarSenha(String value) {
-    String pattern = r'^(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W+).*$/)';
+    String pattern = r'(?=^.{8,}$)(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9]).*';
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
       return "Informe a senha de no mínimo 8 caracteres";
