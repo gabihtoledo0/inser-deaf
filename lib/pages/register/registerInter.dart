@@ -145,7 +145,8 @@ class _RegisterInterState extends State<RegisterInter> {
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
                 validator: (_confSenhaController) {
-                  if (_confSenhaController.isEmpty)
+                  final senha = _senhaController.text;
+                  if (_confSenhaController.isEmpty || _confSenhaController != senha)
                     return "As senhas não conferem";
                 },
               ),

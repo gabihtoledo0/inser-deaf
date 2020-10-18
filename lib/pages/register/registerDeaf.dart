@@ -145,7 +145,8 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
                 validator: (_confSenhaController) {
-                  if (_confSenhaController.isEmpty)
+                  final senha = _senhaController.text;
+                  if (_confSenhaController.isEmpty || _confSenhaController != senha)
                     return "As senhas não conferem";
                 },
               ),
@@ -307,9 +308,11 @@ showSucessDialog(BuildContext context) {
     child: Text("LOGIN"),
     onPressed: () {
       Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao, interpreterDao: interDao),
-      );
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                LoginScreen(userDao: userDao, interpreterDao: interDao),
+          ));
     },
   );
   // configura o  AlertDialog
