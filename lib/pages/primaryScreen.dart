@@ -1,4 +1,5 @@
 import 'package:Inserdeaf/pages/register/registerDeaf.dart';
+import 'package:Inserdeaf/pages/register/registerInter.dart';
 import 'package:flutter/material.dart';
 import 'login/login.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
@@ -8,7 +9,6 @@ UserDao userDao = UserDao();
 InterpreterDao intepreterDao = InterpreterDao();
 
 class PrimaryScreen extends StatefulWidget {
-
   final UserDao userDao;
   final InterpreterDao interpreterDao;
 
@@ -26,6 +26,22 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
       backgroundColor: Colors.lightBlue[900],
       body: ListView(padding: EdgeInsets.all(28.0), children: <Widget>[
         SizedBox(
+          height: 64.0,
+        ),
+        JobLoginImageAsset(),
+        SizedBox(
+          height: 16.0,
+        ),
+        Text(
+          '"Com a Libras, falamos a mesma língua"',
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blueGrey[50]),
+        ),
+        SizedBox(
+          height: 48.0,
+        ),
+        SizedBox(
           height: 50.0,
           child: RaisedButton(
             shape: RoundedRectangleBorder(
@@ -40,7 +56,9 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao, interpreterDao: intepreterDao)),
+                MaterialPageRoute(
+                    builder: (context) => LoginScreen(
+                        userDao: userDao, interpreterDao: intepreterDao)),
               );
             },
           ),
@@ -60,7 +78,12 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
             ),
             textColor: Colors.blueGrey[900],
             color: Colors.green[200],
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterInter()),
+              );
+            },
           ),
         ),
         SizedBox(
@@ -87,6 +110,22 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
           ),
         )
       ]),
+    );
+  }
+}
+
+class JobLoginImageAsset extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    AssetImage assetImage = AssetImage('images/logo-azul.png');
+    return Center(
+      child: Container(
+        width: 190,
+        height: 170,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(fit: BoxFit.fill, image: assetImage)),
+      ),
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:Inserdeaf/data/database-helper.dart';
 
 class UserDao {
   static const String tableSql =
-      'CREATE TABLE $_tableUser($_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $_name varchar(20) not null, $_surname varchar(60) not null, $_email varchar(60) not null, $_senha varchar(50) not null, $_phone varchar(11) not null, $_city varchar(40) not null);';
+      'CREATE TABLE $_tableUser($_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $_name varchar(20) not null, $_surname varchar(60) not null, $_email varchar(60) not null, $_senha varchar(50) not null, $_phone varchar(11) not null);';
   static const String _tableUser = 'Users';
   static const String _id = 'id';
   static const String _name = 'name';
@@ -12,7 +12,6 @@ class UserDao {
   static const String _email = 'email';
   static const String _senha = 'senha';
   static const String _phone = 'phone';
-  static const String _city = 'city';
 
   Future<int> save(User user) async {
     final Database db = await getDatabase();
@@ -54,7 +53,7 @@ class UserDao {
     final Database db = await getDatabase();
     List<Map> maps = await db.query(
       _tableUser,
-      columns: [_id, _name, _surname, _email, _phone, _city],
+      columns: [_id, _name, _surname, _email, _phone],
       where: "$_id = ?",
       whereArgs: [id],
     );
@@ -97,7 +96,6 @@ class UserDao {
         user[0]['email'],
         user[0]['senha'],
         user[0]['phone'],
-        user[0]['city'],
       );
     return null;
   }

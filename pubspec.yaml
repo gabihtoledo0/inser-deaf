@@ -51,6 +51,10 @@ flutter:
   assets:
     - images/job-login.png
     - images/register.png
+    - images/interprete.png
+    - images/logo.png
+    - images/logo-branco.png
+    - images/logo-azul.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

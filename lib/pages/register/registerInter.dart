@@ -2,38 +2,38 @@ import 'package:Inserdeaf/data/dao/state_dao.dart';
 // import 'package:Inserdeaf/models/estado.dart';
 import 'package:Inserdeaf/pages/login/login.dart';
 import 'package:flutter/material.dart';
-import 'package:Inserdeaf/data/dao/user_dao.dart';
-import 'package:Inserdeaf/models/user.dart';
+import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
+import 'package:Inserdeaf/models/interpreter.dart';
 import 'package:Inserdeaf/data/dao/city_dao.dart';
 import 'package:Inserdeaf/pages/register/validator.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-UserDao userDao = UserDao();
+InterpreterDao interDao = InterpreterDao();
 EstadoDao stateDao = EstadoDao();
 CityDao cityDao = CityDao();
 Validator valida = Validator();
 
-class RegisterDeaf extends StatefulWidget {
-  final UserDao userDao;
-  final User user;
+class RegisterInter extends StatefulWidget {
+  final InterpreterDao interDao;
+  final Interpreter inter;
   final EstadoDao stateDao;
   final CityDao cityDao;
   final Validator valida;
 
-  RegisterDeaf(
+  RegisterInter(
       {Key key,
-      this.userDao,
-      this.user,
+      this.interDao,
+      this.inter,
       this.stateDao,
       this.cityDao,
       this.valida})
       : super(key: key);
 
   @override
-  _RegisterDeafState createState() => _RegisterDeafState();
+  _RegisterInterState createState() => _RegisterInterState();
 }
 
-class _RegisterDeafState extends State<RegisterDeaf> {
+class _RegisterInterState extends State<RegisterInter> {
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -46,8 +46,9 @@ class _RegisterDeafState extends State<RegisterDeaf> {
   final TextEditingController _senhaController = TextEditingController();
   final TextEditingController _confSenhaController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  bool editado = false;
-  // int _currentItemSelected = 1;
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _descController = TextEditingController();
+
   final maskFormatter = new MaskTextInputFormatter(
       mask: '(##)####-####', filter: {"#": RegExp(r'[0-9]')});
 
@@ -145,86 +146,32 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                     return "As senhas não conferem";
                 },
               ),
-              // FutureBuilder(
-              //   future: stateDao.getData(),
-              //   builder: (context, snapshot) {
-              //     /* Apenas para desenhar algo enquanto não existir informações pra montar o DropDown */
-              //     print(snapshot.hasData);
-              //     if (!snapshot.hasData) return Container();
-
-              //     List<Estado> estados = stateDao.toList(snapshot.data);
-
-              //     return DropdownButton<int>(
-              //       value: _currentItemSelected,
-              //       isExpanded: true,
-              //       items: estados.map((item) {
-              //         return DropdownMenuItem(
-              //           value: item.id,
-              //           child: Text(item.name),
-              //         );
-              //       }).toList(),
-              //       onChanged: (value) {
-              //         setState(() {
-              //           _currentItemSelected = value;
-              //         });
-              //       },
-              //     );
-              //   },
-              // ),
-              // FutureBuilder(
-              //   future: cityDao.getData(),
-              //   builder: (context, snapshot) {
-              //     /* Apenas para desenhar algo enquanto não existir informações pra montar o DropDown */
-              //     print(snapshot.hasData);
-              //     if (!snapshot.hasData) return Container();
-
-              //     List<City> city = cityDao.toList(snapshot.data);
-
-              //     return DropdownButton<int>(
-              //       value: _currentItemSelected,
-              //       isExpanded: true,
-              //       items: city.map((item) {
-              //         return DropdownMenuItem(
-              //           value: item.id,
-              //           child: Text(item.name),
-              //         );
-              //       }).toList(),
-              //       onChanged: (value) {
-              //         setState(() {
-              //           _currentItemSelected = value;
-              //         });
-              //       },
-              //     );
-              //   },
-              // ),
-              // DropdownButton<String>(
-              //   value: dropdownValue,
-              //   icon: Icon(Icons.arrow_downward),
-              //   iconSize: 24,
-              //   elevation: 16,
-              //   isExpanded: true,
-              //   style: TextStyle(fontSize: 18, color: Colors.deepPurple),
-              //   underline: Container(
-              //     height: 2,
-              //     color: Colors.blue[600],
-              //   ),
-              //   onChanged: (String newValue) {
-              //     setState(() {
-              //       dropdownValue = newValue;
-              //     });
-              //   },
-              //   items: <String>[
-              //     "Cidades",
-              //     "Adamantina",
-              //   ].map<DropdownMenuItem<String>>((String value) {
-              //     return DropdownMenuItem<String>(
-              //       value: value,
-              //       child: Text(value,
-              //           style:
-              //               TextStyle(fontSize: 18.0, color: Colors.blue[600])),
-              //     );
-              //   }).toList(),
-              // ),
+              SizedBox(
+                height: 16.0,
+              ),
+              TextFormField(
+                controller: _cityController,
+                decoration: InputDecoration(
+                    labelText: "Cidade",
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.location_city)),
+                keyboardType: TextInputType.streetAddress,
+                validator: valida.validarNome,
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              TextFormField(
+                controller: _descController,
+                decoration: InputDecoration(
+                    labelText: "Descrição",
+                    hintText: "Conte sobre sua carreira",
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.location_city)),
+                keyboardType: TextInputType.text,
+                maxLines: 8,
+                maxLength: 300,
+              ),
               SizedBox(
                 height: 32.0,
               ),
@@ -257,11 +204,13 @@ class _RegisterDeafState extends State<RegisterDeaf> {
     final String email = _emailController.text;
     final String senha = _senhaController.text;
     final String phone = _phoneController.text;
+    final String city = _cityController.text;
+    final String desc = _descController.text;
 
-    var c = User(1, name, surname, email, senha, phone);
-    int user = await userDao.insert(c);
+    var c = Interpreter(1, name, surname, email, senha, phone, city, desc);
+    int inter = await interDao.insert(c);
 
-    if (user != null) {
+    if (inter != null) {
       print("realizado cadastro");
       showSucessDialog(context);
     } else {
@@ -304,7 +253,8 @@ showSucessDialog(BuildContext context) {
     onPressed: () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => LoginScreen(userDao: userDao)),
+        MaterialPageRoute(
+            builder: (context) => LoginScreen(interpreterDao: interDao)),
       );
     },
   );
@@ -327,7 +277,7 @@ showSucessDialog(BuildContext context) {
 class JobLoginImageAsset extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AssetImage assetImage = AssetImage('images/register.png');
+    AssetImage assetImage = AssetImage('images/interprete.png');
     Image image = Image(image: assetImage, height: 250);
     return Container(
       child: image,

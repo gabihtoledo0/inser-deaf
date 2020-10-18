@@ -34,9 +34,9 @@ class Validator{
     if (value.length == 0) {
       return "Informe a senha de no mínimo 8 caracteres";
     } else if(!regExp.hasMatch(value)){
-      return "A senha deve contar caracteres";
+      return "A senha deve conter um caractere especial, uma letra maiúscula, uma letra minúscula e um número.";
     }else if(value.length < 8){
-      return "A senha deve contar caracteres";
+      return "A senha deve no mínimo 8 caracteres.";
     }else {
       return null;
     }

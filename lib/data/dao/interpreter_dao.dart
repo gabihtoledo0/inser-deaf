@@ -15,26 +15,23 @@ class InterpreterDao {
   static const String _city = 'city';
   static const String _desc = 'desc';
 
-  Future<int> save(Interpreter interpreter) async {
+  //insere um usuario no banco
+   Future<int> insert(Interpreter user) async {
     final Database db = await getDatabase();
-    Map<String, dynamic> userMap = interpreter.toMap();
-    return db.insert(_tableInterpreter, userMap);
+    final bool hasInter = await containsUser(user);
+    if (!hasInter) {
+      var resultado = await db.insert(_tableInterpreter, user.toMap());
+      return resultado;
+    }
+    return null;
   }
 
-  // Future<int> saveUser(User user) async {
-  //   final Database db = await getDatabase();
-  //   print(user.name);
-  //   int res = await db.insert('Users', user.toMap());
-  //   List<Map> list = await db.rawQuery('SELECT * FROM Users');
-  //   print(list);
-  //   return res;
-  // }
-
-  Future<int> insert(Interpreter interprete) async {
+  Future<bool> containsUser(Interpreter inters) async {
     final Database db = await getDatabase();
-    int id = await db.insert(_tableInterpreter, interprete.toMap());
-    print('inserted1: $id');
-    return id;
+    List<Map> inter = await db.query(_tableInterpreter,
+        columns: [_email], where: "$_email = ?", whereArgs: [inters.email]);
+    print("procurando email...");
+    return inter != null && inter.isNotEmpty;
   }
 
   Future<Interpreter> find(String email, String senha) async {
