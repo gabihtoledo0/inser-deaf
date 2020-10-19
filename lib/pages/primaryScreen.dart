@@ -77,7 +77,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             textColor: Colors.blueGrey[900],
-            color: Colors.blue[300],
+            color: Color(0xFFFc6d7fa),
             onPressed: () {
               Navigator.push(
                 context,

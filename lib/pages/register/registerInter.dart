@@ -3,18 +3,21 @@ import 'package:Inserdeaf/data/dao/state_dao.dart';
 import 'package:Inserdeaf/pages/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
+import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/models/interpreter.dart';
 import 'package:Inserdeaf/data/dao/city_dao.dart';
 import 'package:Inserdeaf/pages/register/validator.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 InterpreterDao interDao = InterpreterDao();
+UserDao userDao = UserDao();
 EstadoDao stateDao = EstadoDao();
 CityDao cityDao = CityDao();
 Validator valida = Validator();
 
 class RegisterInter extends StatefulWidget {
   final InterpreterDao interDao;
+  final UserDao userDao;
   final Interpreter inter;
   final EstadoDao stateDao;
   final CityDao cityDao;
@@ -23,6 +26,7 @@ class RegisterInter extends StatefulWidget {
   RegisterInter(
       {Key key,
       this.interDao,
+      this.userDao,
       this.inter,
       this.stateDao,
       this.cityDao,
@@ -35,11 +39,6 @@ class RegisterInter extends StatefulWidget {
 
 class _RegisterInterState extends State<RegisterInter> {
   final _formKey = GlobalKey<FormState>();
-  @override
-  void initState() {
-    super.initState();
-  }
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -146,7 +145,8 @@ class _RegisterInterState extends State<RegisterInter> {
                 keyboardType: TextInputType.visiblePassword,
                 validator: (_confSenhaController) {
                   final senha = _senhaController.text;
-                  if (_confSenhaController.isEmpty || _confSenhaController != senha)
+                  if (_confSenhaController.isEmpty ||
+                      _confSenhaController != senha)
                     return "As senhas não conferem";
                 },
               ),
@@ -258,7 +258,7 @@ showSucessDialog(BuildContext context) {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => LoginScreen(interpreterDao: interDao)),
+            builder: (context) => LoginScreen(interpreterDao: interDao, userDao: userDao)),
       );
     },
   );

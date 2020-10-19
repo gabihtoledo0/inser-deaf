@@ -39,11 +39,6 @@ class RegisterDeaf extends StatefulWidget {
 
 class _RegisterDeafState extends State<RegisterDeaf> {
   final _formKey = GlobalKey<FormState>();
-  @override
-  void initState() {
-    super.initState();
-  }
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();

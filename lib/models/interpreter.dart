@@ -38,7 +38,6 @@ class Interpreter {
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
-    map['id'] = id;
     map['name'] = name;
     map['surname'] = surname;
     map['email'] = email;
