@@ -5,14 +5,12 @@ class User {
   String email;
   String senha;
   String phone;
-  String city;
 
-  User(this.id, this.name, this.surname, this.email, this.senha, this.phone,
-      this.city);
+  User(this.id, this.name, this.surname, this.email, this.senha, this.phone);
 
   @override
   String toString() {
-    return 'User{id: $id, name: $name, surname: $surname, email: $email, senha: $senha, phone: $phone, city: $city}';
+    return 'User{id: $id, name: $name, surname: $surname, email: $email, senha: $senha, phone: $phone}';
   }
 
   User.fromJson(Map<String, dynamic> json)
@@ -21,8 +19,7 @@ class User {
         surname = json['surname'],
         email = json['email'],
         senha = json['senha'],
-        phone = json['phone'],
-        city = json['city'];
+        phone = json['phone'];
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -30,18 +27,15 @@ class User {
         'email': email,
         'senha': senha,
         'phone': phone,
-        'city': city,
       };
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
-    map['id'] = id;
     map['name'] = name;
     map['surname'] = surname;
     map['email'] = email;
     map['senha'] = senha;
     map['phone'] = phone;
-    map['city'] = city;
     return map;
   }
 }

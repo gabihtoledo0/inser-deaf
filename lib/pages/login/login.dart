@@ -5,15 +5,18 @@ import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:Inserdeaf/models/user.dart';
 import 'package:Inserdeaf/models/interpreter.dart';
+import 'package:Inserdeaf/pages/register/validator.dart';
 
 import '../../models/interpreter.dart';
 
 class LoginScreen extends StatefulWidget {
   final UserDao userDao;
+  final Validator valida;
   final InterpreterDao interpreterDao;
   LoginScreen({
     Key key,
     this.userDao,
+    this.valida,
     this.interpreterDao,
   }) : super(key: key);
   @override
