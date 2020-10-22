@@ -6,16 +6,22 @@ import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:Inserdeaf/models/user.dart';
 import 'package:Inserdeaf/models/interpreter.dart';
 import 'package:Inserdeaf/pages/register/validator.dart';
+import 'package:Inserdeaf/pages/HomePage/HomepageUser.dart';
+import 'package:Inserdeaf/pages/HomePage/HomepageInter.dart';
 
 import '../../models/interpreter.dart';
 
 class LoginScreen extends StatefulWidget {
   final UserDao userDao;
+  final HomePageInter homepageInter;
+  final HomePageUser homepageUser;
   final Validator valida;
   final InterpreterDao interpreterDao;
   LoginScreen({
     Key key,
     this.userDao,
+    this.homepageInter,
+    this.homepageUser,
     this.valida,
     this.interpreterDao,
   }) : super(key: key);
@@ -108,13 +114,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 textColor: Colors.blueGrey[900],
                 onPressed: () {
                   Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PrimaryScreen()),
-              );
+                    context,
+                    MaterialPageRoute(builder: (context) => PrimaryScreen()),
+                  );
                 },
                 icon: Icon(Icons.keyboard_backspace, size: 24),
-                label: Text("Voltar", style: TextStyle(fontSize: 16.0)
-                ),
+                label: Text("Voltar", style: TextStyle(fontSize: 16.0)),
               ),
             )
           ],
@@ -128,8 +133,18 @@ class _LoginScreenState extends State<LoginScreen> {
     final String senha = _senhaController.text;
     User user = await widget.userDao.auth(email, senha);
     Interpreter interpreter = await widget.interpreterDao.auth(email, senha);
-    if (user != null || interpreter != null)
-      print("autenticado");
+    if (user != null)
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePageUser(),
+        ));
+    else if (interpreter != null)
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePageInter(),
+        ));
     else
       print("não autenticado");
   }

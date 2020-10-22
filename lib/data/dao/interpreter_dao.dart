@@ -40,7 +40,7 @@ class InterpreterDao {
         columns: [_email, _senha],
         where: "$_email = ? and $_senha = ?",
         whereArgs: [email, senha]);
-    print("procurando usuário...");
+    print("procurando interprete...");
     print(interprete);
     if (interprete.length >= 1)
       return Interpreter(
