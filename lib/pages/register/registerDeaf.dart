@@ -48,7 +48,7 @@ class _RegisterDeafState extends State<RegisterDeaf> {
   bool editado = false;
   // int _currentItemSelected = 1;
   final maskFormatter = new MaskTextInputFormatter(
-      mask: '(##)####-####', filter: {"#": RegExp(r'[0-9]')});
+      mask: '(##)#####-####', filter: {"#": RegExp(r'[0-9]')});
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +141,8 @@ class _RegisterDeafState extends State<RegisterDeaf> {
                 keyboardType: TextInputType.visiblePassword,
                 validator: (_confSenhaController) {
                   final senha = _senhaController.text;
-                  if (_confSenhaController.isEmpty || _confSenhaController != senha)
+                  if (_confSenhaController.isEmpty ||
+                      _confSenhaController != senha)
                     return "As senhas não conferem";
                 },
               ),

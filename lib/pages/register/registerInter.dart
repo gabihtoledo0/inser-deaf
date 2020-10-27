@@ -49,7 +49,7 @@ class _RegisterInterState extends State<RegisterInter> {
   final TextEditingController _descController = TextEditingController();
 
   final maskFormatter = new MaskTextInputFormatter(
-      mask: '(##)####-####', filter: {"#": RegExp(r'[0-9]')});
+      mask: '(##)#####-####', filter: {"#": RegExp(r'[0-9]')});
 
   @override
   Widget build(BuildContext context) {
@@ -258,7 +258,8 @@ showSucessDialog(BuildContext context) {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => LoginScreen(interpreterDao: interDao, userDao: userDao)),
+            builder: (context) =>
+                LoginScreen(interpreterDao: interDao, userDao: userDao)),
       );
     },
   );
