@@ -61,4 +61,15 @@ class InterpreterDao {
     if (hasInter != null) return hasInter;
     return null;
   }
+
+  //retorna todos os usuarios
+  Future<List<Interpreter>> getInterpreter() async {
+    final Database db = await getDatabase();
+    var resultado = await db.query(_tableInterpreter);
+
+    List<Interpreter> list = resultado.isNotEmpty
+        ? resultado.map((c) => Interpreter.fromJson(c)).toList()
+        : [];
+    return list;
+  }
 }
