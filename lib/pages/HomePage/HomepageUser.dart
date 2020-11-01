@@ -32,33 +32,64 @@ class _HomePageUserState extends State<HomePageUser> {
         ),
         backgroundColor: Colors.white,
         body: ListView.builder(
-          padding: EdgeInsets.all(28.0),
+          padding: EdgeInsets.all(15.0),
           itemCount: interpreter.length,
           itemBuilder: (context, index) {
-            _listaInterpreter(context, index);
+            return _listaInterpreter(context, index);
           },
-        )
-      );
+        ));
   }
 
-  _listaInterpreter(BuildContext context, int index){
+  _listaInterpreter(BuildContext context, int index) {
     return GestureDetector(
-      child: Card(
-        child: Padding(padding: EdgeInsets.all(10.0),
-        child: Row(children: <Widget>[
-          Container(
-            width: 70.0,
-            height: 70.0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: AssetImage("images/icone-conta.png")
+        child: Card(
+      child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: AssetImage("images/icone-conta.png"))),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          interpreter[index].name,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 3.0),
+                        ),
+                        Text(
+                          interpreter[index].surname,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      interpreter[index].phone,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Text(
+                      interpreter[index].desc,
+                      style: TextStyle(fontSize: 16),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
               )
-            ),
-          )
-        ],)
-        ),
-      )
-    );
+            ],
+          )),
+    ));
   }
 }
