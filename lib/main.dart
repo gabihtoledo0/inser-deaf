@@ -17,7 +17,7 @@ void main() {
 
 class LoginApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext appcontext) {
     return MaterialApp(
       title: 'Login App',
       debugShowCheckedModeBanner: false,
