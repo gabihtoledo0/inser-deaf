@@ -1,6 +1,7 @@
 import 'package:Inserdeaf/models/interpreter.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePageUser extends StatefulWidget {
   final InterpreterDao interDao;
@@ -38,6 +39,17 @@ class _HomePageUserState extends State<HomePageUser> {
             return _listaInterpreter(context, index);
           },
         ));
+  }
+
+  fazerLigacao(index) async {
+    String _phone = interpreter[index].phone;
+    var url = "sms:$_phone";
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   _listaInterpreter(BuildContext context, int index) {
@@ -92,9 +104,14 @@ class _HomePageUserState extends State<HomePageUser> {
                         Padding(
                           padding: EdgeInsets.only(right: 3.0),
                         ),
-                        Image(
-                            image: AssetImage("images/whatsapp.png"),
-                            width: 20.0),
+                        OutlineButton(
+                          onPressed: () {
+                            fazerLigacao(index);
+                          },
+                          child: Image(
+                              image: AssetImage("images/whatsapp.png"),
+                              width: 20.0),
+                        )
                       ],
                     ),
                     Container(
