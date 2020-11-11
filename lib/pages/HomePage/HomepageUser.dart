@@ -43,7 +43,7 @@ class _HomePageUserState extends State<HomePageUser> {
 
   fazerLigacao(index) async {
     String _phone = interpreter[index].phone;
-    var url = "sms:$_phone";
+    var url = "tel:$_phone";
 
     if (await canLaunch(url)) {
       await launch(url);
