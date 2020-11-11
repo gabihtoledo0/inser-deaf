@@ -77,16 +77,22 @@ class _HomePageUserState extends State<HomePageUser> {
                       children: <Widget>[
                         Text(
                           interpreter[index].name,
-                          style: TextStyle(fontSize: 20, height: 1.5),
+                          style: TextStyle(
+                              fontSize: 22,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 3.0),
+                          padding: EdgeInsets.only(right: 4.0),
                         ),
                         Text(
                           interpreter[index].surname,
-                          style: TextStyle(fontSize: 20, height: 1.5),
+                          style: TextStyle(
+                              fontSize: 22,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -101,16 +107,13 @@ class _HomePageUserState extends State<HomePageUser> {
                             height: 1.5,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 3.0),
-                        ),
-                        OutlineButton(
+                        TextButton(
                           onPressed: () {
                             fazerLigacao(index);
                           },
                           child: Image(
                               image: AssetImage("images/whatsapp.png"),
-                              width: 20.0),
+                              width: 30.0),
                         )
                       ],
                     ),
@@ -126,25 +129,27 @@ class _HomePageUserState extends State<HomePageUser> {
                   ],
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width / 6.5,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      width: 40.0,
-                      height: 40.0,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: AssetImage("images/localizacao.png"))),
-                    ),
-                    Text(
-                      interpreter[index].city,
-                      style: TextStyle(fontSize: 16, height: 1.5),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+              Expanded(
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 6.5,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 40.0,
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: AssetImage("images/localizacao.png"))),
+                      ),
+                      Text(
+                        interpreter[index].city,
+                        style: TextStyle(fontSize: 16, height: 1.5),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],
