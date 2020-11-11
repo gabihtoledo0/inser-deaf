@@ -27,17 +27,47 @@ class _HomePageUserState extends State<HomePageUser> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Interpretes"),
-          backgroundColor: Colors.lightBlue[900],
-        ),
+            title: Text("Interpretes"), backgroundColor: Colors.lightBlue[900]),
         backgroundColor: Colors.white,
-        body: ListView.builder(
-          padding: EdgeInsets.all(10.0),
-          itemCount: interpreter.length,
-          itemBuilder: (context, index) {
-            return _listaInterpreter(context, index);
-          },
-        ));
+        body: (Form(
+            child: ListView(children: <Widget>[
+          ListView.builder(
+            padding: EdgeInsets.all(10.0),
+            itemCount: interpreter.length,
+            itemBuilder: (context, index) {
+              return _listaInterpreter(context, index);
+            },
+          ),
+          BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Color(0xFF6200EE),
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white.withOpacity(.60),
+            selectedFontSize: 14,
+            unselectedFontSize: 14,
+            onTap: (value) {
+              // Respond to item press.
+            },
+            items: [
+              BottomNavigationBarItem(
+                title: Text('Favorites'),
+                icon: Icon(Icons.favorite),
+              ),
+              BottomNavigationBarItem(
+                title: Text('Music'),
+                icon: Icon(Icons.music_note),
+              ),
+              BottomNavigationBarItem(
+                title: Text('Places'),
+                icon: Icon(Icons.location_on),
+              ),
+              BottomNavigationBarItem(
+                title: Text('News'),
+                icon: Icon(Icons.library_books),
+              ),
+            ],
+          )
+        ]))));
   }
 
   _listaInterpreter(BuildContext context, int index) {
