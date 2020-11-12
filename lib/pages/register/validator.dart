@@ -1,6 +1,6 @@
 class Validator {
   String validarNome(String value) {
-    String patttern = r'(^[a-zA-Z ]*$)';
+    String patttern = r'(^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$)';
     RegExp regExp = new RegExp(patttern);
     if (value.length == 0) {
       return "Informe o nome";
