@@ -67,7 +67,8 @@ class _HomePageUserState extends State<HomePageUser> {
                     image: DecorationImage(
                         image: AssetImage("images/icone-conta.png"))),
               ),
-              Padding(
+              Expanded(
+                  child: Padding(
                 padding: EdgeInsets.only(left: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,30 +129,28 @@ class _HomePageUserState extends State<HomePageUser> {
                     )
                   ],
                 ),
-              ),
-              Expanded(
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 6.5,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 40.0,
-                        height: 40.0,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: AssetImage("images/localizacao.png"))),
-                      ),
-                      Text(
-                        interpreter[index].city,
-                        style: TextStyle(fontSize: 16, height: 1.5),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
+              )),
+              Container(
+                width: MediaQuery.of(context).size.width / 6.5,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: 40.0,
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: AssetImage("images/localizacao.png"))),
+                    ),
+                    Text(
+                      interpreter[index].city,
+                      style: TextStyle(fontSize: 16, height: 1.5),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-              )
+              ),
             ],
           )),
     ));
