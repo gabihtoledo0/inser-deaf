@@ -14,6 +14,7 @@ class _HomePageUserState extends State<HomePageUser> {
   // final _formKey = GlobalKey<FormState>();
   List<Interpreter> interpreter = List<Interpreter>();
   InterpreterDao interDao = InterpreterDao();
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -26,19 +27,86 @@ class _HomePageUserState extends State<HomePageUser> {
   }
 
   Widget build(BuildContext context) {
+    final tabs = [
+      ListView.builder(
+        padding: EdgeInsets.all(10.0),
+        itemCount: interpreter.length,
+        itemBuilder: (context, index) {
+          return _listaInterpreter(context, index);
+        },
+      ),
+      ListView(children: <Widget>[
+        SizedBox(
+            height: 100.0,
+            width: MediaQuery.of(context).size.width,
+            child: OutlineButton.icon(
+              textColor: Colors.blueGrey[900],
+              highlightedBorderColor: Colors.black.withOpacity(0.12),
+              onPressed: () {
+                // Respond to button press
+              },
+              icon: Icon(Icons.account_balance_wallet, size: 26),
+              label: Text(
+                "Informações pessoais",
+                style: TextStyle(
+                  fontSize: 24,
+                  height: 1.5,
+                ),
+              ),
+            )),
+        SizedBox(
+            height: 100.0,
+            width: MediaQuery.of(context).size.width,
+            child: OutlineButton.icon(
+              textColor: Colors.blueGrey[900],
+              highlightedBorderColor: Colors.black.withOpacity(0.12),
+              onPressed: () {
+                // Respond to button press
+              },
+              icon: Icon(Icons.vpn_key, size: 26),
+              label: Text(
+                "Mudar senha",
+                style: TextStyle(
+                  fontSize: 24,
+                  height: 1.5,
+                ),
+              ),
+            ))
+      ]),
+    ];
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Interpretes"),
-          backgroundColor: Colors.lightBlue[900],
-        ),
-        backgroundColor: Colors.white,
-        body: ListView.builder(
-          padding: EdgeInsets.all(10.0),
-          itemCount: interpreter.length,
-          itemBuilder: (context, index) {
-            return _listaInterpreter(context, index);
-          },
-        ));
+      appBar: AppBar(
+        title: Text("Sair"),
+        backgroundColor: Colors.lightBlue[900],
+      ),
+      backgroundColor: Colors.white,
+      body: tabs[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex,
+        backgroundColor: Colors.lightBlue[900],
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Color(0xFFF8BBD0).withOpacity(.70),
+        selectedLabelStyle: textTheme.caption,
+        iconSize: 35,
+        unselectedLabelStyle: textTheme.caption,
+        onTap: (index) {
+          // Respond to item press.
+          setState(() => _currentIndex = index);
+        },
+        items: [
+          BottomNavigationBarItem(
+            title: Text('Home'),
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            title: Text('Perfil'),
+            icon: Icon(Icons.account_box),
+          ),
+        ],
+      ),
+    );
   }
 
   fazerLigacao(index) async {

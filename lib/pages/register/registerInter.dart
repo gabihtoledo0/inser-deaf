@@ -1,5 +1,4 @@
 import 'package:Inserdeaf/data/dao/state_dao.dart';
-// import 'package:Inserdeaf/models/estado.dart';
 import 'package:Inserdeaf/pages/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
