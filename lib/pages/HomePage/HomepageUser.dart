@@ -2,6 +2,7 @@ import 'package:Inserdeaf/models/interpreter.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:Inserdeaf/pages/Profile/profileUser.dart';
 
 class HomePageUser extends StatefulWidget {
   final InterpreterDao interDao;
@@ -43,7 +44,10 @@ class _HomePageUserState extends State<HomePageUser> {
               textColor: Colors.blueGrey[900],
               highlightedBorderColor: Colors.black.withOpacity(0.12),
               onPressed: () {
-                // Respond to button press
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileUser()),
+                );
               },
               icon: Icon(Icons.account_balance_wallet, size: 26),
               label: Text(
