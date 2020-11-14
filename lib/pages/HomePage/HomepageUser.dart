@@ -1,4 +1,3 @@
-import 'dart:js';
 import 'package:Inserdeaf/models/interpreter.dart';
 import 'package:Inserdeaf/pages/Chamados/CriarChamado.dart';
 import 'package:flutter/material.dart';

@@ -1,11 +1,10 @@
 import 'package:Inserdeaf/data/dao/userCard_dao.dart';
 import 'package:Inserdeaf/models/userCard.dart';
+import 'package:Inserdeaf/pages/HomePage/HomepageInter.dart';
 import 'package:Inserdeaf/pages/register/registerDeaf.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
-import '../primaryScreen.dart';
 
 UserCardDao userCardDao = UserCardDao();
 
@@ -18,6 +17,7 @@ class ChamadoPageUserCard extends StatefulWidget {
 
 class _ChamadoPageUserCardState extends State<ChamadoPageUserCard> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _tituloController = TextEditingController();
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _telefoneController = TextEditingController();
   final TextEditingController _horarioController = TextEditingController();
@@ -34,7 +34,6 @@ class _ChamadoPageUserCardState extends State<ChamadoPageUserCard> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         backgroundColor: Colors.blueGrey[50],
         appBar: AppBar(
@@ -48,9 +47,18 @@ class _ChamadoPageUserCardState extends State<ChamadoPageUserCard> {
                 height: 24.0,
               ),
               TextFormField(
+                controller: _tituloController,
+                decoration: InputDecoration(
+                  labelText: "Ex: Médico",
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.assignment_turned_in),
+                ),
+                keyboardType: TextInputType.text,
+              ),
+              TextFormField(
                 controller: _nomeController,
                 decoration: InputDecoration(
-                  labelText: "Nome",
+                  labelText: "Nome Completo",
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.person),
                 ),
@@ -134,17 +142,47 @@ class _ChamadoPageUserCardState extends State<ChamadoPageUserCard> {
   }
 
   void register() async {
+    final String titulo = _tituloController.text;
     final String nome = _nomeController.text;
     final String telefone = _telefoneController.text;
     final String cep = _cepController.text;
     final DateTime data = DateTime.parse(_dataController.text);
     final String horario = _horarioController.text;
 
-    var c = UserCard(1, nome, telefone, horario, data, cep);
-    int inter = await userCardDao.insert(c);
+    var c = UserCard(1, titulo, nome, telefone, horario, data, cep);
+    int userCard = await userCardDao.insert(c);
 
-    if (inter != null) {
+    if (userCard != null) {
       print("Chamado solicitado!");
+      showSucessDialog(context);
     }
   }
+}
+
+showSucessDialog(BuildContext context) {
+  // configura o button
+  Widget loginButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePageInter(),
+          ));
+    },
+  );
+  // configura o  AlertDialog
+  AlertDialog alerta = AlertDialog(
+    title: Text("Chamado cadastrado com sucesso"),
+    actions: [
+      loginButton,
+    ],
+  );
+  // exibe o dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alerta;
+    },
+  );
 }
