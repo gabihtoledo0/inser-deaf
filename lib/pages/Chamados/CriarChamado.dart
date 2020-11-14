@@ -1,5 +1,6 @@
 import 'package:Inserdeaf/data/dao/userCard_dao.dart';
 import 'package:Inserdeaf/models/userCard.dart';
+import 'package:Inserdeaf/pages/Chamados/ExibeChamados.dart';
 import 'package:Inserdeaf/pages/register/registerDeaf.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -141,10 +142,15 @@ class _ChamadoPageUserCardState extends State<ChamadoPageUserCard> {
     final String horario = _horarioController.text;
 
     var c = UserCard(1, nome, telefone, horario, data, cep);
-    int inter = await userCardDao.insert(c);
+    int card = await userCardDao.insert(c);
 
-    if (inter != null) {
+    if (card != null) {
       print("Chamado solicitado!");
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChamadoHomePage(),
+          ));
     }
   }
 }
