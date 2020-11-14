@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePageUser(),
+          builder: (context) => HomePageUser(user: user),
         ));
     else if (interpreter != null)
       Navigator.push(

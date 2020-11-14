@@ -1,12 +1,19 @@
+import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/models/interpreter.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Inserdeaf/pages/Profile/profileUser.dart';
+import 'package:Inserdeaf/models/user.dart';
+
+UserDao userDao = UserDao();
 
 class HomePageUser extends StatefulWidget {
   final InterpreterDao interDao;
-  HomePageUser({Key key, this.interDao}) : super(key: key);
+  final User user;
+  final UserDao userDao;
+  HomePageUser({Key key, this.interDao, this.user, this.userDao})
+      : super(key: key);
   @override
   _HomePageUserState createState() => _HomePageUserState();
 }
@@ -14,6 +21,7 @@ class HomePageUser extends StatefulWidget {
 class _HomePageUserState extends State<HomePageUser> {
   // final _formKey = GlobalKey<FormState>();
   List<Interpreter> interpreter = List<Interpreter>();
+  List<User> users = List<User>();
   InterpreterDao interDao = InterpreterDao();
   int _currentIndex = 0;
 
@@ -23,6 +31,11 @@ class _HomePageUserState extends State<HomePageUser> {
     interDao.getInterpreter().then((lista) {
       setState(() {
         interpreter = lista;
+      });
+    });
+    userDao.getUsuarios().then((value) {
+      setState(() {
+        users = value;
       });
     });
   }
@@ -44,10 +57,7 @@ class _HomePageUserState extends State<HomePageUser> {
               textColor: Colors.blueGrey[900],
               highlightedBorderColor: Colors.black.withOpacity(0.12),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileUser()),
-                );
+                _exibeUsuario(user: users[index]);
               },
               icon: Icon(Icons.account_balance_wallet, size: 26),
               label: Text(
@@ -226,5 +236,18 @@ class _HomePageUserState extends State<HomePageUser> {
             ],
           )),
     ));
+  }
+
+  void _exibeUsuario({User user}) async {
+    final usuarioRecebido = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProfileUser(user: user)),
+    );
+
+    if (usuarioRecebido != null) {
+      if (user != null) {
+        await userDao.updateUser(usuarioRecebido);
+      }
+    }
   }
 }
