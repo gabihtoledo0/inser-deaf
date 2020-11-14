@@ -4,7 +4,7 @@ class UserCard {
   String nome;
   String telefone;
   String horario;
-  DateTime data;
+  String data;
   String cep;
 
   UserCard(this.id, this.titulo, this.nome, this.telefone, this.horario,

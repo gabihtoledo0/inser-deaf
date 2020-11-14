@@ -57,6 +57,8 @@ flutter:
     - images/icone-conta.png
     - images/whatsapp.png
     - images/localizacao.png
+    - images/user-card.png
+    - images/profile.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -32,6 +32,28 @@ class Validator {
     }
   }
 
+  String validaNumero(String value) {
+    String pattern = r'[0-9]';
+    RegExp regExp = new RegExp(pattern);
+    if (value.length == 0) {
+      return "O campo não pode ficar vazio";
+    } else if (!regExp.hasMatch(value)) {
+      return "Tente digitar apensas números";
+    }
+    return null;
+  }
+
+  String validaData(String value) {
+    String pattern = r'([0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4})';
+    RegExp regExp = new RegExp(pattern);
+    if (value.length == 0) {
+      return "O campo não pode ficar vazio";
+    } else if (!regExp.hasMatch(value)) {
+      return "Data inválida";
+    }
+    return null;
+  }
+
   String validarSenha(String value) {
     String pattern =
         r'(?=^.{8,}$)(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9]).*';

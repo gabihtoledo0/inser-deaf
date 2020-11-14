@@ -1,16 +1,19 @@
 import 'package:Inserdeaf/data/dao/userCard_dao.dart';
 import 'package:Inserdeaf/models/userCard.dart';
-import 'package:Inserdeaf/pages/HomePage/HomepageInter.dart';
-import 'package:Inserdeaf/pages/register/registerDeaf.dart';
+import 'package:Inserdeaf/pages/HomePage/HomepageUser.dart';
+import 'package:Inserdeaf/pages/register/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 UserCardDao userCardDao = UserCardDao();
+Validator valida = Validator();
 
 class ChamadoPageUserCard extends StatefulWidget {
   final UserCardDao userCardDao;
-  ChamadoPageUserCard({Key key, this.userCardDao}) : super(key: key);
+  final Validator valida;
+  ChamadoPageUserCard({Key key, this.valida, this.userCardDao})
+      : super(key: key);
   @override
   _ChamadoPageUserCardState createState() => _ChamadoPageUserCardState();
 }
@@ -28,9 +31,8 @@ class _ChamadoPageUserCardState extends State<ChamadoPageUserCard> {
       mask: '(##)#####-####', filter: {"#": RegExp(r'[0-9]')});
   final maskCep = new MaskTextInputFormatter(
       mask: '#####-###', filter: {"#": RegExp(r'[0-9]')});
-  final maskData = new MaskTextInputFormatter(
-      mask: '##/##/####',
-      filter: {"#": RegExp(r'[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}')});
+  final maskHorario = new MaskTextInputFormatter(mask: '##:##');
+  final maskData = new MaskTextInputFormatter(mask: '##/##/####');
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,11 @@ class _ChamadoPageUserCardState extends State<ChamadoPageUserCard> {
         body: Form(
             key: _formKey,
             child: ListView(padding: EdgeInsets.all(28.0), children: <Widget>[
+              JobLoginImageAsset(),
+              Text(
+                  "Aqui você pode marcar a data e horário que irá precisa de um interprete, assim fica mais fácil de encontramos o profissional perfeito para entrar em contato com vc ;)",
+                  style:
+                      TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 24.0,
               ),
@@ -54,6 +61,10 @@ class _ChamadoPageUserCardState extends State<ChamadoPageUserCard> {
                   prefixIcon: Icon(Icons.assignment_turned_in),
                 ),
                 keyboardType: TextInputType.text,
+                validator: valida.validarNome,
+              ),
+              SizedBox(
+                height: 16.0,
               ),
               TextFormField(
                 controller: _nomeController,
@@ -91,24 +102,30 @@ class _ChamadoPageUserCardState extends State<ChamadoPageUserCard> {
                   prefixIcon: Icon(Icons.streetview),
                 ),
                 keyboardType: TextInputType.streetAddress,
+                validator: valida.validaNumero,
               ),
               SizedBox(
                 height: 16.0,
               ),
               TextFormField(
                 controller: _dataController,
+                inputFormatters: [maskData],
                 decoration: InputDecoration(
                   labelText: "Data",
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.date_range),
                 ),
                 keyboardType: TextInputType.datetime,
+                validator: valida.validaData,
               ),
               SizedBox(
                 height: 16.0,
               ),
               TextFormField(
                 controller: _horarioController,
+                validator: valida.validaNumero,
+                inputFormatters: [maskHorario],
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: "Horário",
                   border: OutlineInputBorder(),
@@ -146,7 +163,7 @@ class _ChamadoPageUserCardState extends State<ChamadoPageUserCard> {
     final String nome = _nomeController.text;
     final String telefone = _telefoneController.text;
     final String cep = _cepController.text;
-    final DateTime data = DateTime.parse(_dataController.text);
+    final String data = _dataController.text;
     final String horario = _horarioController.text;
 
     var c = UserCard(1, titulo, nome, telefone, horario, data, cep);
@@ -167,7 +184,7 @@ showSucessDialog(BuildContext context) {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePageInter(),
+            builder: (context) => HomePageUser(),
           ));
     },
   );
@@ -185,4 +202,15 @@ showSucessDialog(BuildContext context) {
       return alerta;
     },
   );
+}
+
+class JobLoginImageAsset extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    AssetImage assetImage = AssetImage('images/user-card.png');
+    Image image = Image(image: assetImage, height: 180);
+    return Container(
+      child: image,
+    );
+  }
 }

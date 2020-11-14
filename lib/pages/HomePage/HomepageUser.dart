@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../primaryScreen.dart';
+
 class HomePageUser extends StatefulWidget {
   final InterpreterDao interDao;
   HomePageUser({Key key, this.interDao}) : super(key: key);
@@ -12,7 +14,6 @@ class HomePageUser extends StatefulWidget {
 }
 
 class _HomePageUserState extends State<HomePageUser> {
-  // final _formKey = GlobalKey<FormState>();
   List<Interpreter> interpreter = List<Interpreter>();
   InterpreterDao interDao = InterpreterDao();
 
@@ -28,18 +29,42 @@ class _HomePageUserState extends State<HomePageUser> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Interpretes"),
-          backgroundColor: Colors.lightBlue[900],
-        ),
-        backgroundColor: Colors.white,
-        body: ListView.builder(
-          padding: EdgeInsets.all(10.0),
-          itemCount: interpreter.length,
-          itemBuilder: (context, index) {
-            return _listaInterpreter(context, index);
-          },
-        ));
+      appBar: AppBar(
+        actions: [
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PrimaryScreen()),
+              );
+            },
+            child: Text("SAIR"),
+          )
+        ],
+        title: Text("Interpretes"),
+        backgroundColor: Colors.lightBlue[900],
+      ),
+      backgroundColor: Colors.white,
+      body: ListView.builder(
+        padding: EdgeInsets.all(10.0),
+        itemCount: interpreter.length,
+        itemBuilder: (context, index) {
+          return _listaInterpreter(context, index);
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFFF8BBD0),
+        foregroundColor: Colors.black,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ChamadoPageUserCard()),
+          );
+        },
+        child: Icon(Icons.add),
+      ),
+    );
   }
 
   fazerLigacao(index) async {
@@ -86,9 +111,6 @@ class _HomePageUserState extends State<HomePageUser> {
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 4.0),
-                        ),
                         Text(
                           interpreter[index].surname,
                           style: TextStyle(
@@ -109,7 +131,10 @@ class _HomePageUserState extends State<HomePageUser> {
                             height: 1.5,
                           ),
                         ),
-                        TextButton(
+                        Padding(
+                          padding: EdgeInsets.only(left: 4.0),
+                        ),
+                        OutlineButton(
                           onPressed: () {
                             fazerLigacao(index);
                           },
@@ -137,8 +162,8 @@ class _HomePageUserState extends State<HomePageUser> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      width: 40.0,
-                      height: 40.0,
+                      width: 30.0,
+                      height: 30.0,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
@@ -146,7 +171,7 @@ class _HomePageUserState extends State<HomePageUser> {
                     ),
                     Text(
                       interpreter[index].city,
-                      style: TextStyle(fontSize: 16, height: 1.5),
+                      style: TextStyle(fontSize: 14, height: 1.5),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -156,11 +181,4 @@ class _HomePageUserState extends State<HomePageUser> {
           )),
     ));
   }
-}
-
-void _exibeChamadoPageUserCard({BuildContext context}) {
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ChamadoPageUserCard(userCardDao: userCardDao)));
 }
