@@ -42,7 +42,11 @@ class UserCardDao {
     final Database db = await getDatabase();
     List<Map> maps = await db.query(
       _tableUserCard,
+<<<<<<< HEAD
       columns: [_id, _titulo, _nome, _telefone, _horario, _data, _cep],
+=======
+      columns: [_id, _titulo, _horario, _data, _cep],
+>>>>>>> master
       where: "$_id = ?",
       whereArgs: [id],
     );

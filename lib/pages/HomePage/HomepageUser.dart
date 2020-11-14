@@ -2,6 +2,7 @@ import 'package:Inserdeaf/models/interpreter.dart';
 import 'package:Inserdeaf/pages/Chamados/CriarChamado.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePageUser extends StatefulWidget {
   final InterpreterDao interDao;
@@ -41,6 +42,17 @@ class _HomePageUserState extends State<HomePageUser> {
         ));
   }
 
+  fazerLigacao(index) async {
+    String _phone = interpreter[index].phone;
+    var url = "tel:$_phone";
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   _listaInterpreter(BuildContext context, int index) {
     return GestureDetector(
         child: Card(
@@ -56,7 +68,8 @@ class _HomePageUserState extends State<HomePageUser> {
                     image: DecorationImage(
                         image: AssetImage("images/icone-conta.png"))),
               ),
-              Padding(
+              Expanded(
+                  child: Padding(
                 padding: EdgeInsets.only(left: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,16 +79,22 @@ class _HomePageUserState extends State<HomePageUser> {
                       children: <Widget>[
                         Text(
                           interpreter[index].name,
-                          style: TextStyle(fontSize: 20, height: 1.5),
+                          style: TextStyle(
+                              fontSize: 22,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 3.0),
+                          padding: EdgeInsets.only(right: 4.0),
                         ),
                         Text(
                           interpreter[index].surname,
-                          style: TextStyle(fontSize: 20, height: 1.5),
+                          style: TextStyle(
+                              fontSize: 22,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -90,12 +109,14 @@ class _HomePageUserState extends State<HomePageUser> {
                             height: 1.5,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 3.0),
-                        ),
-                        Image(
-                            image: AssetImage("images/whatsapp.png"),
-                            width: 20.0),
+                        TextButton(
+                          onPressed: () {
+                            fazerLigacao(index);
+                          },
+                          child: Image(
+                              image: AssetImage("images/whatsapp.png"),
+                              width: 30.0),
+                        )
                       ],
                     ),
                     Container(
@@ -109,7 +130,7 @@ class _HomePageUserState extends State<HomePageUser> {
                     )
                   ],
                 ),
-              ),
+              )),
               Container(
                 width: MediaQuery.of(context).size.width / 6.5,
                 child: Column(
@@ -130,7 +151,7 @@ class _HomePageUserState extends State<HomePageUser> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           )),
     ));
