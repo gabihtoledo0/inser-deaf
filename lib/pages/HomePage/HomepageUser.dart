@@ -1,4 +1,6 @@
+import 'dart:js';
 import 'package:Inserdeaf/models/interpreter.dart';
+import 'package:Inserdeaf/pages/Chamados/CriarChamado.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 
@@ -134,4 +136,11 @@ class _HomePageUserState extends State<HomePageUser> {
           )),
     ));
   }
+}
+
+void _exibeChamadoPageUserCard({BuildContext context}) {
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ChamadoPageUserCard(userCardDao: userCardDao)));
 }
