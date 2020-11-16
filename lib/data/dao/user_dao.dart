@@ -83,7 +83,6 @@ class UserDao {
   Future<User> find(String email, String senha) async {
     final Database db = await getDatabase();
     List<Map> user = await db.query(_tableUser,
-        columns: [_email, _senha],
         where: "$_email = ? and $_senha = ?",
         whereArgs: [email, senha]);
     print("procurando usuário...");

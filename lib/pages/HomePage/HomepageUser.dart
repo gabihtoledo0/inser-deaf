@@ -33,11 +33,11 @@ class _HomePageUserState extends State<HomePageUser> {
         interpreter = lista;
       });
     });
-    userDao.getUsuarios().then((value) {
-      setState(() {
-        users = value;
-      });
-    });
+    // userDao.getUser().then((value) {
+    //   setState(() {
+    //     users = value;
+    //   });
+    // });
   }
 
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class _HomePageUserState extends State<HomePageUser> {
               textColor: Colors.blueGrey[900],
               highlightedBorderColor: Colors.black.withOpacity(0.12),
               onPressed: () {
-                _exibeUsuario(user: users[index]);
+                _exibeUsuario(user: widget.user);
               },
               icon: Icon(Icons.account_balance_wallet, size: 26),
               label: Text(
