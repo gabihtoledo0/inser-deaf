@@ -1,5 +1,6 @@
 import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/models/interpreter.dart';
+import 'package:Inserdeaf/pages/Chamados/CriarChamado.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -7,6 +8,8 @@ import 'package:Inserdeaf/pages/Profile/profileUser.dart';
 import 'package:Inserdeaf/models/user.dart';
 
 UserDao userDao = UserDao();
+
+import '../primaryScreen.dart';
 
 class HomePageUser extends StatefulWidget {
   final InterpreterDao interDao;
@@ -19,7 +22,6 @@ class HomePageUser extends StatefulWidget {
 }
 
 class _HomePageUserState extends State<HomePageUser> {
-  // final _formKey = GlobalKey<FormState>();
   List<Interpreter> interpreter = List<Interpreter>();
   List<User> users = List<User>();
   InterpreterDao interDao = InterpreterDao();
@@ -88,6 +90,18 @@ class _HomePageUserState extends State<HomePageUser> {
       appBar: AppBar(
         title: Text("Sair"),
         backgroundColor: Colors.lightBlue[900],
+        actions: [
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PrimaryScreen()),
+              );
+            },
+            child: Text("SAIR"),
+          )
+        ],
       ),
       backgroundColor: Colors.white,
       body: tabs[_currentIndex],
@@ -162,9 +176,6 @@ class _HomePageUserState extends State<HomePageUser> {
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 4.0),
-                        ),
                         Text(
                           interpreter[index].surname,
                           style: TextStyle(
@@ -185,7 +196,10 @@ class _HomePageUserState extends State<HomePageUser> {
                             height: 1.5,
                           ),
                         ),
-                        TextButton(
+                        Padding(
+                          padding: EdgeInsets.only(left: 4.0),
+                        ),
+                        OutlineButton(
                           onPressed: () {
                             fazerLigacao(index);
                           },
@@ -213,8 +227,8 @@ class _HomePageUserState extends State<HomePageUser> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      width: 40.0,
-                      height: 40.0,
+                      width: 30.0,
+                      height: 30.0,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
@@ -222,7 +236,7 @@ class _HomePageUserState extends State<HomePageUser> {
                     ),
                     Text(
                       interpreter[index].city,
-                      style: TextStyle(fontSize: 16, height: 1.5),
+                      style: TextStyle(fontSize: 14, height: 1.5),
                       textAlign: TextAlign.center,
                     ),
                   ],

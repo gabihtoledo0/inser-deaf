@@ -4,9 +4,11 @@ import 'package:Inserdeaf/data/database-helper.dart';
 
 class UserCardDao {
   static const String tableSql =
-      'CREATE TABLE $_tableUserCard($_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $_titulo varchar(100), $_horario varchar(10) not null, $_data Date not null, $_cep varchar(9) not null;';
+      'CREATE TABLE $_tableUserCard($_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $_nome varchar(100), $_titulo varchar(100), $_telefone varchar(14), $_horario varchar(5) not null, $_data varchar(10) not null, $_cep varchar(9) not null);';
   static const String _tableUserCard = 'UserCard';
   static const String _titulo = 'titulo';
+  static const String _nome = 'nome';
+  static const String _telefone = 'telefone';
   static const String _id = 'id';
   static const String _horario = 'horario';
   static const String _data = 'data';
@@ -40,7 +42,7 @@ class UserCardDao {
     final Database db = await getDatabase();
     List<Map> maps = await db.query(
       _tableUserCard,
-      columns: [_id, _titulo, _horario, _data, _cep],
+      columns: [_id, _titulo, _nome, _telefone, _horario, _data, _cep],
       where: "$_id = ?",
       whereArgs: [id],
     );
