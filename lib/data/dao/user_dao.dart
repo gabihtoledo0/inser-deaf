@@ -19,7 +19,7 @@ class UserDao {
   }
 
   //insere um usuario no banco
-   Future<int> insert(User user) async {
+  Future<int> insert(User user) async {
     final Database db = await getDatabase();
     final bool hasUser = await containsUser(user);
     if (!hasUser) {
@@ -69,7 +69,8 @@ class UserDao {
   Future<int> updateUser(User user) async {
     final Database db = await getDatabase();
     var resultado = db.update(_tableUser, user.toMap(),
-        where: "$_id = ? ", whereArgs: [user.id]);
+        where: "$_id = ?", whereArgs: [user.id]);
+    print(resultado);
     return resultado;
   }
 
@@ -83,8 +84,7 @@ class UserDao {
   Future<User> find(String email, String senha) async {
     final Database db = await getDatabase();
     List<Map> user = await db.query(_tableUser,
-        where: "$_email = ? and $_senha = ?",
-        whereArgs: [email, senha]);
+        where: "$_email = ? and $_senha = ?", whereArgs: [email, senha]);
     print("procurando usuário...");
     print(user);
     if (user.length >= 1)

@@ -33,11 +33,6 @@ class _HomePageUserState extends State<HomePageUser> {
         interpreter = lista;
       });
     });
-    // userDao.getUser().then((value) {
-    //   setState(() {
-    //     users = value;
-    //   });
-    // });
   }
 
   Widget build(BuildContext context) {
@@ -244,10 +239,33 @@ class _HomePageUserState extends State<HomePageUser> {
       MaterialPageRoute(builder: (context) => ProfileUser(user: user)),
     );
 
-    if (usuarioRecebido != null) {
-      if (user != null) {
-        await userDao.updateUser(usuarioRecebido);
-      }
+    if (user != null) {
+      await userDao.updateUser(usuarioRecebido);
+      showAlertDialog(context);
     }
+  }
+
+  showAlertDialog(BuildContext context) {
+    // configura o button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    // configura o  AlertDialog
+    AlertDialog alerta = AlertDialog(
+      title: Text("Usuário atualizado"),
+      actions: [
+        okButton,
+      ],
+    );
+    // exibe o dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alerta;
+      },
+    );
   }
 }

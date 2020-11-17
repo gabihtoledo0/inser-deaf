@@ -38,4 +38,16 @@ class User {
     map['phone'] = phone;
     return map;
   }
+
+  User copyWith(
+      {String name, String surname, String phone, String email, String senha}) {
+    return User(
+      id ?? this.id,
+      name ?? this.name,
+      surname ?? this.surname,
+      phone ?? this.phone,
+      email ?? this.email,
+      senha ?? this.senha,
+    );
+  }
 }
