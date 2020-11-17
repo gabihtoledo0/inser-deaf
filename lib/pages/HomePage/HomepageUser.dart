@@ -1,21 +1,31 @@
+import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/models/interpreter.dart';
 import 'package:Inserdeaf/pages/Chamados/CriarChamado.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:Inserdeaf/pages/Profile/profileUser.dart';
+import 'package:Inserdeaf/models/user.dart';
+
+UserDao userDao = UserDao();
 
 import '../primaryScreen.dart';
 
 class HomePageUser extends StatefulWidget {
   final InterpreterDao interDao;
-  HomePageUser({Key key, this.interDao}) : super(key: key);
+  User user;
+  final UserDao userDao;
+  HomePageUser({Key key, this.interDao, this.user, this.userDao})
+      : super(key: key);
   @override
   _HomePageUserState createState() => _HomePageUserState();
 }
 
 class _HomePageUserState extends State<HomePageUser> {
   List<Interpreter> interpreter = List<Interpreter>();
+  List<User> users = List<User>();
   InterpreterDao interDao = InterpreterDao();
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -28,8 +38,58 @@ class _HomePageUserState extends State<HomePageUser> {
   }
 
   Widget build(BuildContext context) {
+    final tabs = [
+      ListView.builder(
+        padding: EdgeInsets.all(10.0),
+        itemCount: interpreter.length,
+        itemBuilder: (context, index) {
+          return _listaInterpreter(context, index);
+        },
+      ),
+      ListView(children: <Widget>[
+        SizedBox(
+            height: 100.0,
+            width: MediaQuery.of(context).size.width,
+            child: OutlineButton.icon(
+              textColor: Colors.blueGrey[900],
+              highlightedBorderColor: Colors.black.withOpacity(0.12),
+              onPressed: () {
+                _exibeUsuario(user: widget.user);
+              },
+              icon: Icon(Icons.account_balance_wallet, size: 26),
+              label: Text(
+                "Informações pessoais",
+                style: TextStyle(
+                  fontSize: 24,
+                  height: 1.5,
+                ),
+              ),
+            )),
+        SizedBox(
+            height: 100.0,
+            width: MediaQuery.of(context).size.width,
+            child: OutlineButton.icon(
+              textColor: Colors.blueGrey[900],
+              highlightedBorderColor: Colors.black.withOpacity(0.12),
+              onPressed: () {
+                // Respond to button press
+              },
+              icon: Icon(Icons.vpn_key, size: 26),
+              label: Text(
+                "Mudar senha",
+                style: TextStyle(
+                  fontSize: 24,
+                  height: 1.5,
+                ),
+              ),
+            ))
+      ]),
+    ];
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
+        title: Text("Sair"),
+        backgroundColor: Colors.lightBlue[900],
         actions: [
           FlatButton(
             textColor: Colors.white,
@@ -42,27 +102,32 @@ class _HomePageUserState extends State<HomePageUser> {
             child: Text("SAIR"),
           )
         ],
-        title: Text("Interpretes"),
-        backgroundColor: Colors.lightBlue[900],
       ),
       backgroundColor: Colors.white,
-      body: ListView.builder(
-        padding: EdgeInsets.all(10.0),
-        itemCount: interpreter.length,
-        itemBuilder: (context, index) {
-          return _listaInterpreter(context, index);
+      body: tabs[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex,
+        backgroundColor: Colors.lightBlue[900],
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Color(0xFFF8BBD0).withOpacity(.70),
+        selectedLabelStyle: textTheme.caption,
+        iconSize: 35,
+        unselectedLabelStyle: textTheme.caption,
+        onTap: (index) {
+          // Respond to item press.
+          setState(() => _currentIndex = index);
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFFF8BBD0),
-        foregroundColor: Colors.black,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ChamadoPageUserCard()),
-          );
-        },
-        child: Icon(Icons.add),
+        items: [
+          BottomNavigationBarItem(
+            title: Text('Home'),
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            title: Text('Perfil'),
+            icon: Icon(Icons.account_box),
+          ),
+        ],
       ),
     );
   }
@@ -180,5 +245,43 @@ class _HomePageUserState extends State<HomePageUser> {
             ],
           )),
     ));
+  }
+
+  void _exibeUsuario({User user}) async {
+    final usuarioRecebido = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProfileUser(userId: user.id)),
+    );
+
+    if (usuarioRecebido != null) {
+      if (user != null) {
+        await userDao.updateUser(usuarioRecebido);
+        showAlertDialog(context);
+      }
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    // configura o button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    // configura o  AlertDialog
+    AlertDialog alerta = AlertDialog(
+      title: Text("Usuário atualizado"),
+      actions: [
+        okButton,
+      ],
+    );
+    // exibe o dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alerta;
+      },
+    );
   }
 }

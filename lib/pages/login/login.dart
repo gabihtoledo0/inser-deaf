@@ -1,4 +1,6 @@
 import 'package:Inserdeaf/pages/primaryScreen.dart';
+import 'package:Inserdeaf/pages/register/registerDeaf.dart';
+import 'package:Inserdeaf/pages/register/registerInter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:Inserdeaf/data/dao/user_dao.dart';
@@ -135,19 +137,69 @@ class _LoginScreenState extends State<LoginScreen> {
     Interpreter interpreter = await widget.interpreterDao.auth(email, senha);
     if (user != null)
       Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePageUser(),
-        ));
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePageUser(user: user),
+          ));
     else if (interpreter != null)
       Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePageInter(),
-        ));
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePageInter(),
+          ));
     else
-      print("não autenticado");
+      showAlertDialog(context);
   }
+}
+
+showAlertDialog(BuildContext context) {
+  // configura o button
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  Widget registerDeaf = FlatButton(
+    child: Text("Cadastrar surdo"),
+    onPressed: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                RegisterDeaf(),
+          ));
+    },
+  );
+  Widget registerInter = FlatButton(
+    child: Text("Cadastrar interpreter"),
+    onPressed: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                RegisterInter(),
+          ));
+    },
+  );
+  // configura o  AlertDialog
+  AlertDialog alerta = AlertDialog(
+    title: Text("Email não encontrado"),
+    content: Text(
+        "Não encontramos seus dados, cadastre-se ou tente novamente"),
+    actions: [
+      okButton,
+      registerDeaf,
+      registerInter,
+    ],
+  );
+  // exibe o dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alerta;
+    },
+  );
 }
 
 class JobLoginImageAsset extends StatelessWidget {

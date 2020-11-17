@@ -19,7 +19,7 @@ class UserDao {
   }
 
   //insere um usuario no banco
-   Future<int> insert(User user) async {
+  Future<int> insert(User user) async {
     final Database db = await getDatabase();
     final bool hasUser = await containsUser(user);
     if (!hasUser) {
@@ -48,12 +48,20 @@ class UserDao {
     return list;
   }
 
+  //atualizar o objeto do usuario no banco
+  Future<int> updateUser(User user) async {
+    final Database db = await getDatabase();
+    var resultado = await db.update(_tableUser, user.toMap(),
+        where: "$_id = ?", whereArgs: [user.id]);
+    print(resultado);
+    return resultado;
+  }
+
   //retorna um usuario pelo id
   Future<User> getUser(int id) async {
     final Database db = await getDatabase();
     List<Map> maps = await db.query(
       _tableUser,
-      columns: [_id, _name, _surname, _email, _phone],
       where: "$_id = ?",
       whereArgs: [id],
     );
@@ -65,27 +73,18 @@ class UserDao {
     }
   }
 
-  //atualizar o objeto do usuario no banco
-  Future<int> updateUser(User user) async {
-    final Database db = await getDatabase();
-    var resultado = db.update(_tableUser, user.toMap(),
-        where: "$_id = ? ", whereArgs: [user.id]);
-    return resultado;
-  }
-
   //deleta um usuario
   Future<int> deleteUser(int id) async {
     final Database db = await getDatabase();
-    var resultado = db.delete(_tableUser, where: "$_id = ?", whereArgs: [id]);
+    var resultado =
+        await db.delete(_tableUser, where: "$_id = ?", whereArgs: [id]);
     return resultado;
   }
 
   Future<User> find(String email, String senha) async {
     final Database db = await getDatabase();
     List<Map> user = await db.query(_tableUser,
-        columns: [_email, _senha],
-        where: "$_email = ? and $_senha = ?",
-        whereArgs: [email, senha]);
+        where: "$_email = ? and $_senha = ?", whereArgs: [email, senha]);
     print("procurando usuário...");
     print(user);
     if (user.length >= 1)

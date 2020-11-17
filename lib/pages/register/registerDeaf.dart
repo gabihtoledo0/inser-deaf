@@ -52,7 +52,6 @@ class _RegisterDeafState extends State<RegisterDeaf> {
 
   @override
   Widget build(BuildContext context) {
-    // String dropdownValue = 'Cidades';
     return Scaffold(
         backgroundColor: Colors.blueGrey[50],
         appBar: AppBar(
