@@ -10,7 +10,7 @@ UserDao userDao = UserDao();
 
 class HomePageUser extends StatefulWidget {
   final InterpreterDao interDao;
-  final User user;
+  User user;
   final UserDao userDao;
   HomePageUser({Key key, this.interDao, this.user, this.userDao})
       : super(key: key);
@@ -236,12 +236,14 @@ class _HomePageUserState extends State<HomePageUser> {
   void _exibeUsuario({User user}) async {
     final usuarioRecebido = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ProfileUser(user: user)),
+      MaterialPageRoute(builder: (context) => ProfileUser(userId: user.id)),
     );
 
-    if (user != null) {
-      await userDao.updateUser(usuarioRecebido);
-      showAlertDialog(context);
+    if (usuarioRecebido != null) {
+      if (user != null) {
+        await userDao.updateUser(usuarioRecebido);
+        showAlertDialog(context);
+      }
     }
   }
 
