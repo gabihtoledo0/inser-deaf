@@ -74,17 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (text.isEmpty || text.length < 8) return "Senha inválida";
               },
             ),
-            Align(
-                alignment: Alignment.centerRight,
-                child: FlatButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Esqueci minha senha",
-                    textAlign: TextAlign.right,
-                  ),
-                  textColor: Colors.blue[900],
-                  padding: EdgeInsets.all(3.0),
-                )),
             SizedBox(
               height: 16.0,
             ),
@@ -145,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePageInter(),
+            builder: (context) => HomePageInter(inter: interpreter),
           ));
     else
       showAlertDialog(context);

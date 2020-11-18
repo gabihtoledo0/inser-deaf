@@ -3,10 +3,18 @@ import 'package:Inserdeaf/models/userCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../Profile/profileInter.dart';
+import '../../models/interpreter.dart';
+import '../../data/dao/interpreter_dao.dart';
+import '../Profile/about/about.dart';
+import '../primaryScreen.dart';
 
 class HomePageInter extends StatefulWidget {
   final UserCardDao userCardDao;
-  HomePageInter({Key key, this.userCardDao}) : super(key: key);
+  final InterpreterDao interDao;
+  Interpreter inter;
+  HomePageInter({Key key, this.userCardDao, this.inter, this.interDao})
+      : super(key: key);
   @override
   _HomePageInterState createState() => _HomePageInterState();
 }
@@ -14,6 +22,7 @@ class HomePageInter extends StatefulWidget {
 class _HomePageInterState extends State<HomePageInter> {
   List<UserCard> userCard = List<UserCard>();
   UserCardDao userCardDao = UserCardDao();
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -26,19 +35,100 @@ class _HomePageInterState extends State<HomePageInter> {
   }
 
   Widget build(BuildContext context) {
+    final tabs = [
+      ListView.builder(
+        padding: EdgeInsets.all(10.0),
+        itemCount: userCard.length,
+        itemBuilder: (context, index) {
+          return _listaUserCard(context, index);
+        },
+      ),
+      ListView(children: <Widget>[
+        SizedBox(
+            height: 100.0,
+            width: MediaQuery.of(context).size.width,
+            child: OutlineButton.icon(
+              textColor: Colors.blueGrey[900],
+              highlightedBorderColor: Colors.black.withOpacity(0.12),
+              onPressed: () {
+                _exibeInter(inter: widget.inter);
+              },
+              icon: Icon(Icons.account_balance_wallet, size: 26),
+              label: Text(
+                "Informações pessoais",
+                style: TextStyle(
+                  fontSize: 24,
+                  height: 1.5,
+                ),
+              ),
+            )),
+        SizedBox(
+            height: 100.0,
+            width: MediaQuery.of(context).size.width,
+            child: OutlineButton.icon(
+              textColor: Colors.blueGrey[900],
+              highlightedBorderColor: Colors.black.withOpacity(0.12),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => About()),
+                );
+              },
+              icon: Icon(Icons.account_balance, size: 26),
+              label: Text(
+                "Sobre nós",
+                style: TextStyle(
+                  fontSize: 24,
+                  height: 1.5,
+                ),
+              ),
+            ))
+      ]),
+    ];
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Usuários"),
-          backgroundColor: Colors.lightBlue[900],
-        ),
-        backgroundColor: Colors.white,
-        body: ListView.builder(
-          padding: EdgeInsets.all(10.0),
-          itemCount: userCard.length,
-          itemBuilder: (context, index) {
-            return _listaUserCard(context, index);
-          },
-        ));
+      appBar: AppBar(
+        title: Text("Usuários"),
+        backgroundColor: Colors.lightBlue[900],
+        actions: [
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PrimaryScreen()),
+              );
+            },
+            child: Text("SAIR"),
+          )
+        ],
+      ),
+      backgroundColor: Colors.white,
+      body: tabs[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex,
+        backgroundColor: Colors.lightBlue[900],
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Color(0xFFF8BBD0).withOpacity(.70),
+        selectedLabelStyle: textTheme.caption,
+        iconSize: 35,
+        unselectedLabelStyle: textTheme.caption,
+        onTap: (index) {
+          setState(() => _currentIndex = index);
+        },
+        items: [
+          BottomNavigationBarItem(
+            title: Text('Home'),
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            title: Text('Perfil'),
+            icon: Icon(Icons.account_box),
+          ),
+        ],
+      ),
+    );
   }
 
   fazerLigacao(index) async {
@@ -96,7 +186,7 @@ class _HomePageInterState extends State<HomePageInter> {
                             overflow: TextOverflow.ellipsis,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(right: 3.0),
+                            padding: EdgeInsets.only(right: 4.0),
                           ),
                           Text(
                             userCard[index].horario,
@@ -169,5 +259,43 @@ class _HomePageInterState extends State<HomePageInter> {
             ],
           )),
     ));
+  }
+
+  void _exibeInter({Interpreter inter}) async {
+    final usuarioRecebido = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProfileInter(interId: inter.id)),
+    );
+
+    if (usuarioRecebido != null) {
+      if (inter != null) {
+        await interDao.updateUser(usuarioRecebido);
+        showAlertDialog(context);
+      }
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    // configura o button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    // configura o  AlertDialog
+    AlertDialog alerta = AlertDialog(
+      title: Text("Usuário atualizado"),
+      actions: [
+        okButton,
+      ],
+    );
+    // exibe o dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alerta;
+      },
+    );
   }
 }

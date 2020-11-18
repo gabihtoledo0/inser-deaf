@@ -36,7 +36,10 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
           '"Com a Libras, falamos a mesma língua"',
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blueGrey[50]),
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Colors.blueGrey[50]),
         ),
         SizedBox(
           height: 48.0,

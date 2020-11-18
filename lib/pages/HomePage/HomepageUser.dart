@@ -1,21 +1,21 @@
 import 'package:Inserdeaf/data/dao/user_dao.dart';
 import 'package:Inserdeaf/models/interpreter.dart';
-import 'package:Inserdeaf/pages/Chamados/CriarChamado.dart';
 import 'package:flutter/material.dart';
 import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Inserdeaf/pages/Profile/profileUser.dart';
 import 'package:Inserdeaf/models/user.dart';
+import '../primaryScreen.dart';
+import '../Profile/about/about.dart';
+import '../Chamados/CriarChamado.dart';
 
 UserDao userDao = UserDao();
 
-import '../primaryScreen.dart';
-
 class HomePageUser extends StatefulWidget {
   final InterpreterDao interDao;
-  User user;
   final UserDao userDao;
-  HomePageUser({Key key, this.interDao, this.user, this.userDao})
+  User user;
+  HomePageUser({Key key, this.interDao, this.userDao, this.user})
       : super(key: key);
   @override
   _HomePageUserState createState() => _HomePageUserState();
@@ -23,9 +23,9 @@ class HomePageUser extends StatefulWidget {
 
 class _HomePageUserState extends State<HomePageUser> {
   List<Interpreter> interpreter = List<Interpreter>();
-  List<User> users = List<User>();
   InterpreterDao interDao = InterpreterDao();
   int _currentIndex = 0;
+  User user;
 
   @override
   void initState() {
@@ -72,11 +72,14 @@ class _HomePageUserState extends State<HomePageUser> {
               textColor: Colors.blueGrey[900],
               highlightedBorderColor: Colors.black.withOpacity(0.12),
               onPressed: () {
-                // Respond to button press
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => About()),
+                );
               },
-              icon: Icon(Icons.vpn_key, size: 26),
+              icon: Icon(Icons.account_balance, size: 26),
               label: Text(
-                "Mudar senha",
+                "Sobre nós",
                 style: TextStyle(
                   fontSize: 24,
                   height: 1.5,
@@ -105,6 +108,18 @@ class _HomePageUserState extends State<HomePageUser> {
       ),
       backgroundColor: Colors.white,
       body: tabs[_currentIndex],
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFFF8BBD0),
+        foregroundColor: Colors.black,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChamadoPageUserCard(userId: user.id)),
+          );
+        },
+        child: Icon(Icons.add),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
@@ -175,6 +190,9 @@ class _HomePageUserState extends State<HomePageUser> {
                               fontWeight: FontWeight.bold),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 4.0),
                         ),
                         Text(
                           interpreter[index].surname,

@@ -16,7 +16,7 @@ class InterpreterDao {
   static const String _desc = 'desc';
 
   //insere um usuario no banco
-   Future<int> insert(Interpreter user) async {
+  Future<int> insert(Interpreter user) async {
     final Database db = await getDatabase();
     final bool hasInter = await containsUser(user);
     if (!hasInter) {
@@ -37,9 +37,7 @@ class InterpreterDao {
   Future<Interpreter> find(String email, String senha) async {
     final Database db = await getDatabase();
     List<Map> interprete = await db.query(_tableInterpreter,
-        columns: [_email, _senha],
-        where: "$_email = ? and $_senha = ?",
-        whereArgs: [email, senha]);
+        where: "$_email = ? and $_senha = ?", whereArgs: [email, senha]);
     print("procurando interprete...");
     print(interprete);
     if (interprete.length >= 1)
@@ -54,6 +52,31 @@ class InterpreterDao {
         interprete[0]['desc'],
       );
     return null;
+  }
+
+  //retorna um usuario pelo id
+  Future<Interpreter> getInter(int id) async {
+    final Database db = await getDatabase();
+    List<Map> maps = await db.query(
+      _tableInterpreter,
+      where: "$_id = ?",
+      whereArgs: [id],
+    );
+
+    if (maps.length > 0) {
+      return Interpreter.fromJson(maps.first);
+    } else {
+      return null;
+    }
+  }
+
+  //atualizar o objeto do usuario no banco
+  Future<int> updateUser(Interpreter inter) async {
+    final Database db = await getDatabase();
+    var resultado = await db.update(_tableInterpreter, inter.toMap(),
+        where: "$_id = ?", whereArgs: [inter.id]);
+    print(resultado);
+    return resultado;
   }
 
   Future<Interpreter> auth(String email, String senha) async {

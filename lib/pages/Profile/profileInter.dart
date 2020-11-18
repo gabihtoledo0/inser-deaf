@@ -1,24 +1,24 @@
+import 'package:Inserdeaf/models/interpreter.dart';
 import 'package:flutter/material.dart';
-import 'package:Inserdeaf/models/user.dart';
 import 'package:Inserdeaf/pages/register/validator.dart';
-import 'package:Inserdeaf/data/dao/user_dao.dart';
+import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../primaryScreen.dart';
 
 Validator valida = Validator();
-UserDao userDao = UserDao();
+InterpreterDao interDao = InterpreterDao();
 
-class ProfileUser extends StatefulWidget {
-  final int userId;
-  final UserDao userDao;
+class ProfileInter extends StatefulWidget {
+  final int interId;
+  final InterpreterDao interDao;
   final Validator valida;
-  ProfileUser({this.userId, this.valida, this.userDao});
+  ProfileInter({this.interId, this.valida, this.interDao});
 
   @override
-  _ProfileUserState createState() => _ProfileUserState();
+  _ProfileInterState createState() => _ProfileInterState();
 }
 
-class _ProfileUserState extends State<ProfileUser> {
+class _ProfileInterState extends State<ProfileInter> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _surnameController = TextEditingController();
@@ -26,9 +26,11 @@ class _ProfileUserState extends State<ProfileUser> {
   final _senhaController = TextEditingController();
   final _phoneController = TextEditingController();
   final _confSenhaController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _descController = TextEditingController();
 
   bool editado = false;
-  User _editaUsuario;
+  Interpreter _editaInter;
 
   final maskFormatter = new MaskTextInputFormatter(
       mask: '(##)#####-####', filter: {"#": RegExp(r'[0-9]')});
@@ -36,7 +38,7 @@ class _ProfileUserState extends State<ProfileUser> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: setupUser(),
+        future: setupInter(),
         builder: (_, snapShot) {
           if (snapShot.hasData) {
             return Scaffold(
@@ -76,7 +78,7 @@ class _ProfileUserState extends State<ProfileUser> {
                               validator: valida.validarNome,
                               onChanged: (text) {
                                 editado = true;
-                                _editaUsuario.name = text;
+                                _editaInter.name = text;
                               },
                             ),
                             SizedBox(
@@ -93,7 +95,7 @@ class _ProfileUserState extends State<ProfileUser> {
                               validator: valida.validarNome,
                               onChanged: (text) {
                                 editado = true;
-                                _editaUsuario.surname = text;
+                                _editaInter.surname = text;
                               },
                             ),
                             SizedBox(
@@ -111,7 +113,7 @@ class _ProfileUserState extends State<ProfileUser> {
                               validator: valida.validarCelular,
                               onChanged: (text) {
                                 editado = true;
-                                _editaUsuario.phone = text;
+                                _editaInter.phone = text;
                               },
                             ),
                             SizedBox(
@@ -128,7 +130,7 @@ class _ProfileUserState extends State<ProfileUser> {
                               validator: valida.validarEmail,
                               onChanged: (text) {
                                 editado = true;
-                                _editaUsuario.email = text;
+                                _editaInter.email = text;
                               },
                             ),
                             SizedBox(
@@ -146,7 +148,7 @@ class _ProfileUserState extends State<ProfileUser> {
                               validator: valida.validarSenha,
                               onChanged: (text) {
                                 editado = true;
-                                _editaUsuario.senha = text;
+                                _editaInter.senha = text;
                               },
                             ),
                             SizedBox(
@@ -169,6 +171,40 @@ class _ProfileUserState extends State<ProfileUser> {
                               },
                             ),
                             SizedBox(
+                              height: 16.0,
+                            ),
+                            TextFormField(
+                              controller: _cityController,
+                              decoration: InputDecoration(
+                                  labelText: "Cidade",
+                                  border: OutlineInputBorder(),
+                                  prefixIcon: Icon(Icons.location_city)),
+                              keyboardType: TextInputType.streetAddress,
+                              validator: valida.validarNome,
+                              onChanged: (text) {
+                                editado = true;
+                                _editaInter.city = text;
+                              },
+                            ),
+                            SizedBox(
+                              height: 16.0,
+                            ),
+                            TextFormField(
+                              controller: _descController,
+                              decoration: InputDecoration(
+                                  labelText: "Descrição",
+                                  hintText: "Conte sobre sua carreira",
+                                  border: OutlineInputBorder(),
+                                  prefixIcon: Icon(Icons.location_city)),
+                              keyboardType: TextInputType.text,
+                              maxLines: 8,
+                              maxLength: 300,
+                              onChanged: (text) {
+                                editado = true;
+                                _editaInter.desc = text;
+                              },
+                            ),
+                            SizedBox(
                               height: 32.0,
                             ),
                             SizedBox(
@@ -187,7 +223,7 @@ class _ProfileUserState extends State<ProfileUser> {
                                 color: Color(0xFFF8BBD0),
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
-                                    Navigator.pop(context, _editaUsuario);
+                                    Navigator.pop(context, _editaInter);
                                   }
                                 },
                               ),
@@ -204,17 +240,19 @@ class _ProfileUserState extends State<ProfileUser> {
         });
   }
 
-  Future<User> setupUser() async {
-    _editaUsuario = await userDao.getUser(widget.userId);
+  Future<Interpreter> setupInter() async {
+    _editaInter = await interDao.getInter(widget.interId);
 
-    if (_editaUsuario != null) {
-      _nameController.text = _editaUsuario.name;
-      _surnameController.text = _editaUsuario.surname;
-      _emailController.text = _editaUsuario.email;
-      _senhaController.text = _editaUsuario.senha;
-      _phoneController.text = _editaUsuario.phone;
+    if (_editaInter != null) {
+      _nameController.text = _editaInter.name;
+      _surnameController.text = _editaInter.surname;
+      _emailController.text = _editaInter.email;
+      _senhaController.text = _editaInter.senha;
+      _phoneController.text = _editaInter.phone;
+      _cityController.text = _editaInter.city;
+      _descController.text = _editaInter.desc;
 
-      return _editaUsuario;
+      return _editaInter;
     }
     return null;
   }
