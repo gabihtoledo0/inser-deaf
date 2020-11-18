@@ -99,7 +99,7 @@ class _HomePageInterState extends State<HomePageInter> {
                 MaterialPageRoute(builder: (context) => PrimaryScreen()),
               );
             },
-            child: Text("SAIR"),
+            child: Text("Sair"),
           )
         ],
       ),

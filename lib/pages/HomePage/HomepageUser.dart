@@ -91,7 +91,7 @@ class _HomePageUserState extends State<HomePageUser> {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sair"),
+        title: Text("Interpretes"),
         backgroundColor: Colors.lightBlue[900],
         actions: [
           FlatButton(
@@ -112,11 +112,7 @@ class _HomePageUserState extends State<HomePageUser> {
         backgroundColor: const Color(0xFFF8BBD0),
         foregroundColor: Colors.black,
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ChamadoPageUserCard(userId: user.id)),
-          );
+          _exibeUserCard(user: widget.user);
         },
         child: Icon(Icons.add),
       ),
@@ -263,6 +259,14 @@ class _HomePageUserState extends State<HomePageUser> {
             ],
           )),
     ));
+  }
+
+  void _exibeUserCard({User user}) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ChamadoPageUserCard(userId: user.id)),
+    );
   }
 
   void _exibeUsuario({User user}) async {
