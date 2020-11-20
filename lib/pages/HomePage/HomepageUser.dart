@@ -5,9 +5,9 @@ import 'package:Inserdeaf/data/dao/interpreter_dao.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Inserdeaf/pages/Profile/profileUser.dart';
 import 'package:Inserdeaf/models/user.dart';
-import '../primaryScreen.dart';
 import '../Profile/about/about.dart';
 import '../Chamados/CriarChamado.dart';
+import '../primaryScreen.dart';
 
 UserDao userDao = UserDao();
 

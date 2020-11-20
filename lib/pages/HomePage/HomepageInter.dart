@@ -7,7 +7,6 @@ import '../Profile/profileInter.dart';
 import '../../models/interpreter.dart';
 import '../../data/dao/interpreter_dao.dart';
 import '../Profile/about/about.dart';
-import '../primaryScreen.dart';
 
 class HomePageInter extends StatefulWidget {
   final UserCardDao userCardDao;
@@ -90,18 +89,18 @@ class _HomePageInterState extends State<HomePageInter> {
       appBar: AppBar(
         title: Text("Usuários"),
         backgroundColor: Colors.lightBlue[900],
-        actions: [
-          FlatButton(
-            textColor: Colors.white,
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PrimaryScreen()),
-              );
-            },
-            child: Text("Sair"),
-          )
-        ],
+        // actions: [
+        //   FlatButton(
+        //     textColor: Colors.white,
+        //     onPressed: () {
+        //       Navigator.push(
+        //         context,
+        //         MaterialPageRoute(builder: (context) => PrimaryScreen()),
+        //       );
+        //     },
+        //     child: Text("Sair"),
+        //   )
+        // ],
       ),
       backgroundColor: Colors.white,
       body: tabs[_currentIndex],
