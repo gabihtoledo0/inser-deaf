@@ -161,7 +161,7 @@ showAlertDialog(BuildContext context) {
     },
   );
   Widget registerInter = FlatButton(
-    child: Text("Cadastrar interpreter"),
+    child: Text("Cadastrar intérprete"),
     onPressed: () {
       Navigator.push(
           context,

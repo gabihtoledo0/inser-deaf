@@ -133,7 +133,8 @@ class _HomePageInterState extends State<HomePageInter> {
   fazerLigacao(index) async {
     String _phone = userCard[index].telefone;
     // var url = "tel:$_phone";
-    var url = "whatsapp://send?phone=+$_phone&text=Olá, te encontrei pelo app InserDeaf, tudo bem ?";
+    var url =
+        "whatsapp://send?phone=+$_phone&text=Olá, te encontrei pelo app InserDeaf, tudo bem ?";
 
     if (await canLaunch(url)) {
       await launch(url);
@@ -221,14 +222,17 @@ class _HomePageInterState extends State<HomePageInter> {
                           Padding(
                             padding: EdgeInsets.only(left: 4.0),
                           ),
-                          OutlineButton(
-                            onPressed: () {
-                              fazerLigacao(index);
-                            },
-                            child: Image(
-                                image: AssetImage("images/whatsapp.png"),
-                                width: 30.0),
-                          )
+                          SizedBox(
+                            width: 60.0,
+                            child: OutlineButton(
+                              onPressed: () {
+                                fazerLigacao(index);
+                              },
+                              child: Image(
+                                  image: AssetImage("images/whatsapp.png"),
+                                  width: 30.0),
+                            ),
+                          ),
                         ],
                       ),
                     ],
